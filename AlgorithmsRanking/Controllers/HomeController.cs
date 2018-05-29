@@ -1,21 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AlgorithmsRanking.Services;
+using System.Diagnostics;
 
 namespace AlgorithmsRanking.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly TicketsService _db;
-
-        public HomeController(TicketsService db)
-        {
-            _db = db;
-        }
-
-
         public IActionResult Index()
         {
-            return View(_db.GetByAuthor("Me"));
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            return View();
         }
     }
 }
