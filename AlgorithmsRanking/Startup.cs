@@ -26,6 +26,8 @@ namespace AlgorithmsRanking
             services.AddDbContext<DbContexts.ResearchRepositoryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<Services.ResearchRepository>();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
