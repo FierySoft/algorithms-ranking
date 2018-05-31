@@ -4,7 +4,6 @@ import { AlgorithmsService } from './algorithms.service';
 import { Algorithm } from './algorithms.models';
 
 @Component({
-    selector: 'algorithms',
     templateUrl: 'list.component.html'
 })
 export class AlgorithmsListComponent implements OnInit {

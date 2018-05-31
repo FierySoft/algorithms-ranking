@@ -4,7 +4,6 @@ import { DataSetsService } from './data-sets.service';
 import { DataSet } from './data-sets.models';
 
 @Component({
-    selector: 'data-sets',
     templateUrl: 'list.component.html'
 })
 export class DataSetsListComponent implements OnInit {

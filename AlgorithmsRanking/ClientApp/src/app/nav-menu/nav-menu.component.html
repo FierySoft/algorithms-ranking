@@ -18,6 +18,11 @@
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/persons"]' (click)='collapse()'>
+                        <span class='fa fa-user'></span> Участники
+                    </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/algorithms"]' (click)='collapse()'>
                         <span class='fa fa-dashboard'></span> Алгоритмы
                     </a>

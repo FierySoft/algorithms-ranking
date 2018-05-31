@@ -9,6 +9,7 @@ import { AppRoutingModule, appComponents } from './app.routing';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
+import { PersonsModule } from './persons/persons.module';
 import { AlgorithmsModule } from './algorithms/algorithms.module';
 import { DataSetsModule } from './data-sets/data-sets.module';
 
@@ -18,6 +19,7 @@ import { DataSetsModule } from './data-sets/data-sets.module';
         HttpClientModule,
         FormsModule,
         SharedModule,
+        PersonsModule,
         AlgorithmsModule,
         DataSetsModule,
         AppRoutingModule
