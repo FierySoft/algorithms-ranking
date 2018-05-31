@@ -2,25 +2,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 
+import { AppRoutingModule, appComponents } from './app.routing';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+
+import { SharedModule } from './shared/shared.module';
+import { PersonsModule } from './persons/persons.module';
+import { AlgorithmsModule } from './algorithms/algorithms.module';
+import { DataSetsModule } from './data-sets/data-sets.module';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavMenuComponent,
-        HomeComponent
-    ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
         FormsModule,
-        RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' }
-        ])
+        SharedModule,
+        PersonsModule,
+        AlgorithmsModule,
+        DataSetsModule,
+        AppRoutingModule
+    ],
+    declarations: [
+        ...appComponents
     ],
     providers: [
 
@@ -29,4 +34,6 @@ import { HomeComponent } from './home/home.component';
         AppComponent
     ]
 })
-export class AppModule { }
+export class AppModule {
+
+}

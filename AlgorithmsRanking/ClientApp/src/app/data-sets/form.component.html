@@ -1,0 +1,27 @@
+<form #form="ngForm" novalidate (submit)="submit()" *ngIf="value" class="col-md-6">
+    <div class="form-group">
+        <label for="name" class="control-label">Название</label>
+        <input type="text"
+            [(ngModel)]="value.name"
+            required
+            placeholder="Введите название"
+            name="name" ngModel #name="ngModel"
+            class="form-control" />
+        <control-messages [control]="name" class="error-message text-danger"></control-messages>
+    </div>
+    <div class="form-group">
+        <label for="type" class="control-label">Тип</label>
+        <input type="text"
+            [(ngModel)]="value.type"
+            required
+            placeholder="Введите тип"
+            name="type" ngModel #type="ngModel"
+            class="form-control" />
+        <control-messages [control]="type" class="error-message text-danger"></control-messages>
+    </div>
+    
+    <div>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right">Сохранить</button>
+        <a (click)="cancel()" class="btn btn-default">Отмена</a>
+    </div>
+</form>
