@@ -24,12 +24,17 @@
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/algorithms"]' (click)='collapse()'>
-                        <span class='fa fa-dashboard'></span> Алгоритмы
+                        <span class='fa fa-list-alt'></span> Алгоритмы
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/data-sets"]' (click)='collapse()'>
                         <span class='fa fa-database'></span> Наборы данных
+                    </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/researches"]' (click)='collapse()'>
+                        <span class='fa fa-dashboard'></span> Исследования
                     </a>
                 </li>
             </ul>

@@ -1,5 +1,1 @@
-export class DataSet {
-    id: number;
-    name: string;
-    type: string;
-}
+export { DataSet } from '../app.models';

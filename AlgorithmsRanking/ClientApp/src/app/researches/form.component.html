@@ -1,0 +1,62 @@
+<form #form="ngForm" novalidate (submit)="submit()" *ngIf="value" class="row">
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="name" class="control-label">Название</label>
+            <input type="text"
+                [(ngModel)]="value.name"
+                required
+                maxlength="100"
+                placeholder="Введите название"
+                name="name" ngModel #name="ngModel"
+                class="form-control" />
+            <control-messages [control]="name" class="error-message text-danger"></control-messages>
+        </div>
+        <div class="form-group">
+            <label for="description" class="control-label">Описание</label>
+            <textarea type="text"
+                [(ngModel)]="value.description"
+                required
+                maxlength="500"
+                cols="7"
+                placeholder="Введите описание"
+                name="description" ngModel #description="ngModel"
+                class="form-control">
+            </textarea>
+            <control-messages [control]="description" class="error-message text-danger"></control-messages>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="algorithmId" class="control-label">Алгоритм</label>
+            <select
+                [(ngModel)]="value.algorithmId"
+                required
+                name="algorithmId" ngModel #algorithmId="ngModel"
+                class="form-control">
+                <option disabled [value]="null">Выберите алгоритм</option>
+            </select>
+            <control-messages [control]="algorithmId" class="error-message text-danger"></control-messages>
+        </div>
+        <div class="form-group">
+            <label for="dataSetId" class="control-label">Набор данных</label>
+            <select
+                [(ngModel)]="value.dataSetId"
+                required
+                name="dataSetId" ngModel #dataSetId="ngModel"
+                class="form-control">
+                <option disabled [value]="null">Выберите набор данных</option>
+            </select>
+            <control-messages [control]="dataSetId" class="error-message text-danger"></control-messages>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    
+    <div>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right">Сохранить</button>
+        <a (click)="cancel()" class="btn btn-default">Отмена</a>
+    </div>
+
+</form>

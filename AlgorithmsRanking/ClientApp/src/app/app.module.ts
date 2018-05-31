@@ -12,6 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { PersonsModule } from './persons/persons.module';
 import { AlgorithmsModule } from './algorithms/algorithms.module';
 import { DataSetsModule } from './data-sets/data-sets.module';
+import { ResearchesModule } from './researches/researches.module';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { DataSetsModule } from './data-sets/data-sets.module';
         PersonsModule,
         AlgorithmsModule,
         DataSetsModule,
+        ResearchesModule,
         AppRoutingModule
     ],
     declarations: [
