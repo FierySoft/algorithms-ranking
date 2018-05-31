@@ -29,10 +29,13 @@ namespace AlgorithmsRanking.Services
         {
             var update = await GetAlgorithmAsync(id);
 
+            update.Name = model.Name;
+            update.Type = model.Type;
+
             _db.Algorithms.Update(update);
             await _db.SaveChangesAsync();
 
-            return model;
+            return update;
         }
 
         public async Task RemoveAlgorithmAsync(int id)

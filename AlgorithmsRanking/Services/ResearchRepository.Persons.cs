@@ -29,10 +29,16 @@ namespace AlgorithmsRanking.Services
         {
             var update = await GetPersonAsync(id);
 
+            update.FirstName = model.FirstName;
+            update.MiddleName = model.MiddleName;
+            update.LastName = model.LastName;
+            update.Email = model.Email;
+            update.Phone = model.Phone;
+
             _db.Persons.Update(update);
             await _db.SaveChangesAsync();
 
-            return model;
+            return update;
         }
 
         public async Task RemovePersonAsync(int id)

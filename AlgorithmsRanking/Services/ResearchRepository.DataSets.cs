@@ -29,10 +29,13 @@ namespace AlgorithmsRanking.Services
         {
             var update = await GetDataSetAsync(id);
 
+            update.Name = model.Name;
+            update.Type = model.Type;
+
             _db.DataSets.Update(update);
             await _db.SaveChangesAsync();
 
-            return model;
+            return update;
         }
 
         public async Task RemoveDataSetAsync(int id)
