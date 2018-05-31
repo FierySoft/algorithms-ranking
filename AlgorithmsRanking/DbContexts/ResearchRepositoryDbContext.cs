@@ -20,17 +20,17 @@ namespace AlgorithmsRanking.DbContexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Person>().Property(p => p.LastName)
+                .IsRequired()
+                .HasMaxLength(20);
+            
             builder.Entity<Person>().Property(p => p.FirstName)
                 .IsRequired()
                 .HasMaxLength(20);
             
             builder.Entity<Person>().Property(p => p.MiddleName)
-                .IsRequired()
                 .HasMaxLength(20);
          
-            builder.Entity<Person>().Property(p => p.LastName)
-                .HasMaxLength(20);
-            
             builder.Entity<Person>().Property(p => p.Email)
                 .IsRequired()
                 .HasMaxLength(50);
