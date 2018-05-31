@@ -30,6 +30,16 @@ namespace AlgorithmsRanking.Controllers
             return Ok(await _db.GetResearchAsync(id));
         }
 
+        [HttpGet("create")]
+        public async Task<IActionResult> Create()
+        {
+            var model = new ResearchUpdateForm();
+            var algorithms = await _db.GetAlgorithmsListItemsAsync();
+            var dataSets = await _db.GetDataSetsListItemsAsync();
+
+            return Ok(new { model, algorithms, dataSets });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]ResearchCreateForm model)
         {
@@ -41,6 +51,25 @@ namespace AlgorithmsRanking.Controllers
             {
                 return BadRequest(ex);
             }
+        }
+
+        [HttpGet("{id:int}/edit")]
+        public async Task<IActionResult> Edit([FromRoute]int id)
+        {
+            var item = (await _db.GetResearchAsync(id));
+            var model = new ResearchUpdateForm
+            {
+                Name = item.Name,
+                Description = item.Description,
+                AlgorithmId = item.AlgorithmId,
+                DataSetId = item.DataSetId,
+                ExecutorId = item.ExecutorId
+            };
+
+            var algorithms = await _db.GetAlgorithmsListItemsAsync();
+            var dataSets = await _db.GetDataSetsListItemsAsync();
+
+            return Ok(new { model, algorithms, dataSets });
         }
 
         [HttpPut("{id:int}")]

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ResearchesService } from './researches.service';
-import { Research } from './researches.models';
+import { ResearchForm, ResearchUpdate } from './researches.models';
 
 @Component({
     selector: 'research-form',
@@ -9,15 +9,15 @@ import { Research } from './researches.models';
     styleUrls: [ '../validation/control-validation.css' ]
 })
 export class ResearchFormComponent {
-    @Input() value: Research;
-    @Output('save') onSubmit: EventEmitter<Research> = new EventEmitter();
+    @Input() value: ResearchForm;
+    @Output('save') onSubmit: EventEmitter<ResearchUpdate> = new EventEmitter();
     @Output('cancel') onCancel: EventEmitter<boolean> = new EventEmitter();
 
     constructor() { }
 
     submit() {
         if (!this.value) { return; }
-        this.onSubmit.emit(this.value);
+        this.onSubmit.emit(this.value.model);
     }
 
     cancel() {

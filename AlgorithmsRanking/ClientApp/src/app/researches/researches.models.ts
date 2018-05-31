@@ -24,13 +24,18 @@ export class Research {
 }
 
 export class ResearchUpdate {
-    id: number;
     name: string;
     description: string;
-    creatorId: number;
-    executorId?: number;
-    algorithmId?: number;
-    dataSetId?: number;
+    creatorId: number = 1; // TODO: временное решение, выпилить!
+    executorId?: number = 2; // TODO: временное решение, выпилить!
+    algorithmId?: number = null;
+    dataSetId?: number = null;
+}
+
+export class ResearchForm {
+    model: ResearchUpdate;
+    algorithms: EntityListItem[];
+    dataSets: EntityListItem[];
 }
 
 export class ResearchStatus {
@@ -60,4 +65,9 @@ export class ResearchStatus {
     }
 
     public static byCode = (code: number): ResearchStatus => ResearchStatus.all.find(x => x.code === code);
+}
+
+export class EntityListItem {
+    id: number;
+    name: string;
 }

@@ -1,30 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ResearchesService } from './researches.service';
-import { ResearchUpdate } from './researches.models';
+import { ResearchUpdate, ResearchForm } from './researches.models';
 
 @Component({
     template: `
-        <h3>Новое исследование</h3>
-        <research-form
-            [value]="value"
-            (save)="submit($event)"
-            (cancel)="cancel()">
-        </research-form>
+        <spinner [active]="!value"></spinner>
+        <div *ngIf="value">
+            <h3>Новое исследование'</h3>
+            <research-form
+                [value]="value"
+                (save)="submit($event)"
+                (cancel)="cancel()">
+            </research-form>
+        </div>
     `
 })
-export class ResearchesCreateComponent {
-    value: ResearchUpdate;
+export class ResearchesCreateComponent implements OnInit {
+    value: ResearchForm;
 
-    constructor(private _researches: ResearchesService) {
-        this.value = new ResearchUpdate();
+    constructor(private _researches: ResearchesService) { }
+
+    ngOnInit() {
+        this._researches.getResearchCreate()
+            .subscribe(
+                result => { this.value = result; this.value.model = new ResearchUpdate() },
+                error => console.log(error)
+            );
     }
 
     public submit(value: ResearchUpdate) {
         if (!value) { return; }
 
-        this.value = value;
-        this._researches.postResearch(this.value)
+        this.value.model = value;
+        this._researches.postResearch(this.value.model)
             .subscribe(
                 result => this._researches.gotoList(),
                 error => console.log(error)
