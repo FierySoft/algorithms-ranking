@@ -10,6 +10,11 @@
             <a class='navbar-brand' [routerLink]='["/"]'>Исследование алгоритмов</a>
         </div>
         <div class='clearfix'></div>
+        <div style="color:lightgrey">
+            <img [attr.src]="userInfo.photoUri" width="35px" alt="User Image" class="img-circle pull-left" style="margin:5px 15px">
+            <div>{{ userInfo.userName }}</div>
+        </div>
+        <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
