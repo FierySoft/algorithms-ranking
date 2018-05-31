@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
 import { AlgorithmsModule } from './algorithms/algorithms.module';
+import { DataSetsModule } from './data-sets/data-sets.module';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { AlgorithmsModule } from './algorithms/algorithms.module';
         FormsModule,
         SharedModule,
         AlgorithmsModule,
+        DataSetsModule,
         AppRoutingModule
     ],
     declarations: [

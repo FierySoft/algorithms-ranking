@@ -22,6 +22,11 @@
                         <span class='fa fa-dashboard'></span> Алгоритмы
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]'>
+                    <a [routerLink]='["/data-sets"]' (click)='collapse()'>
+                        <span class='fa fa-database'></span> Наборы данных
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
