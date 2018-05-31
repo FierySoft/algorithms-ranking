@@ -6,12 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule, appComponents } from './app.routing';
 import { AppComponent } from './app.component';
 
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
         FormsModule,
+        SharedModule,
         AppRoutingModule
     ],
     declarations: [
