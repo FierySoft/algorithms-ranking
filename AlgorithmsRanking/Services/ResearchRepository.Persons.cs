@@ -1,11 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using AlgorithmsRanking.Entities;
+using AlgorithmsRanking.Models;
+
 
 namespace AlgorithmsRanking.Services
 {
     public partial class ResearchRepository
     {
+        public Task<List<EntityListItem>> GetPersonsListItemsAsync()
+        {
+            return _db.Persons.Select(x => new EntityListItem(x.Id, x.FullName)).ToListAsync();
+        }
+
         public Task<Person[]> GetPersonsAsync()
         {
             return _db.Persons.ToArrayAsync();
