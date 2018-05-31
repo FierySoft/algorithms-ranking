@@ -31,7 +31,7 @@ namespace AlgorithmsRanking.Entities
                 
                     if (!String.IsNullOrEmpty(LastName))
                     {
-                        nameBuilder.Append($"{MiddleName.ToUpper().First()}");
+                        nameBuilder.Append($"{MiddleName.ToUpper().First()}.");
                     }
                 }
 
