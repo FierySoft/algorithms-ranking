@@ -21,6 +21,16 @@ namespace AlgorithmsRanking
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddAuthentication(DevelopmentAuthentication.DevelopmentAuthenticationDefaults.AuthenticationScheme)
+                .AddDevelopment(new DevelopmentUser
+                {
+                    Username = "developer",
+                    Password = "zxasqw12",
+                    Roles = new string[] { "developer" },
+                    Subject = "S-0-0-00-0000000000-0000000000-0000000000-0000"
+                });
+
             services.AddMvc();
 
             services.AddDbContext<DbContexts.ResearchRepositoryDbContext>(options =>
@@ -46,6 +56,8 @@ namespace AlgorithmsRanking
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
