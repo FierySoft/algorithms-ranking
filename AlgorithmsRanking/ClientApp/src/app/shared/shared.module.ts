@@ -5,6 +5,7 @@ import { AceEditorModule } from 'ng2-ace-editor';
 
 import { SpinnerComponent } from './spinner.component';
 import { ErrorComponent } from './error.component';
+import { PersonNameValidatorDirective } from './person-name.validator';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { ErrorComponent } from './error.component';
     ],
     declarations: [
         SpinnerComponent,
-        ErrorComponent
+        ErrorComponent,
+        PersonNameValidatorDirective
     ],
     providers: [
 
@@ -23,6 +25,7 @@ import { ErrorComponent } from './error.component';
         CommonModule,
         SpinnerComponent,
         ErrorComponent,
+        PersonNameValidatorDirective
     ],
     entryComponents: [
 

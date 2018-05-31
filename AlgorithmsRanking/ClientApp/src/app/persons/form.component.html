@@ -6,6 +6,7 @@
             <input type="text"
                 [(ngModel)]="value.lastName"
                 required
+                validatePersonName
                 maxlength="20"
                 placeholder="Введите фамилию"
                 name="lastName" ngModel #lastName="ngModel"
@@ -18,6 +19,7 @@
             <input type="text"
                 [(ngModel)]="value.firstName"
                 required
+                validatePersonName
                 maxlength="20"
                 placeholder="Введите имя"
                 name="firstName" ngModel #firstName="ngModel"
@@ -29,11 +31,38 @@
             <label for="middleName" class="control-label">Отчество</label>
             <input type="text"
                 [(ngModel)]="value.middleName"
+                validatePersonName
                 maxlength="20"
                 placeholder="Введите отчество"
                 name="middleName" ngModel #middleName="ngModel"
                 class="form-control" />
             <control-messages [control]="middleName" class="error-message text-danger"></control-messages>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="email" class="control-label">Email</label>
+            <input type="text"
+                [(ngModel)]="value.email"
+                required
+                maxlength="50"
+                placeholder="Введите email"
+                name="email" ngModel #email="ngModel"
+                class="form-control" />
+            <control-messages [control]="email" class="error-message text-danger"></control-messages>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="phone" class="control-label">Телефон</label>
+            <input type="text"
+                [(ngModel)]="value.phone"
+                required
+                maxlength="12"
+                placeholder="+7----------"
+                name="phone" ngModel #phone="ngModel"
+                class="form-control" />
+            <control-messages [control]="phone" class="error-message text-danger"></control-messages>
         </div>
     </div>
     
