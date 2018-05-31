@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlgorithmsRanking.Entities
 {
     public class Research
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -14,10 +17,10 @@ namespace AlgorithmsRanking.Entities
         public int? ExecutorId { get; set; }
         public virtual Person Executor { get; set; }
 
-        public int? AlgorithmId { get; set; }
+        public int AlgorithmId { get; set; }
         public virtual Algorithm Algorithm { get; set; }
 
-        public int? DataSetId { get; set; }
+        public int DataSetId { get; set; }
         public virtual DataSet DataSet { get; set; }
 
         public float? AccuracyRate { get; set; }

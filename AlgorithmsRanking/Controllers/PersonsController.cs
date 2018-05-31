@@ -18,6 +18,12 @@ namespace AlgorithmsRanking.Controllers
         }
 
 
+        [HttpGet("list")]
+        public async Task<IActionResult> List()
+        {
+            return Ok(await _db.GetPersonsListItemsAsync());
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {

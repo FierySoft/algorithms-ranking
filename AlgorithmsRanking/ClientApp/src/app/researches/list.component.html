@@ -1,0 +1,27 @@
+<h3>
+    Исследования
+    <button (click)="createItem()" [disabled]="!items" class="btn btn-primary pull-right">Добавить</button>
+</h3>
+
+<spinner [active]="!items"></spinner>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Создано</th>
+            <th style="width:70px"></th>
+        </tr>
+    </thead>
+    <tbody *ngIf="items">
+        <tr *ngFor="let research of items">
+            <td>{{ research.name }}</td>
+            <td>{{ research.createdAt | date: 'dd.MM.yyyy HH:mm' }}</td>
+            <td>
+                <i (click)="selectItem(research.id)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |
+                <i (click)="deleteItem(research)" title="Удалить" class="fa fa-trash-o" style="cursor:pointer"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="!items?.length" style="text-align:center">Список пуст<hr></div>

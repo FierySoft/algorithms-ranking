@@ -19,7 +19,8 @@ namespace AlgorithmsRanking.DbContexts
 
             var persons = new Person[]
             {
-                new Person("Иванов", "Иван", "Иванович", "ivanovii@mail.ru", "+79999999999")
+                new Person("Иванов", "Иван", "Иванович", "ivanovii@mail.ru", "+79999999999"),
+                new Person("Петров", "Петр", "Петрович", "petrovpp@mail.ru", "+79098765432")
             };
 
             context.Persons.AddRange(persons);
