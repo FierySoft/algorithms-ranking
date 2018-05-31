@@ -14,10 +14,10 @@ namespace AlgorithmsRanking.Entities
         public int? ExecutorId { get; set; }
         public virtual Person Executor { get; set; }
 
-        public int? AlgorithmId { get; set; }
+        public int AlgorithmId { get; set; }
         public virtual Algorithm Algorithm { get; set; }
 
-        public int? DataSetId { get; set; }
+        public int DataSetId { get; set; }
         public virtual DataSet DataSet { get; set; }
 
         public float? AccuracyRate { get; set; }

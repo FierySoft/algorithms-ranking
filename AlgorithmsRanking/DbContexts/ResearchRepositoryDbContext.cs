@@ -60,7 +60,7 @@ namespace AlgorithmsRanking.DbContexts
 
             builder.Entity<Research>().Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(25);
+                .HasMaxLength(100);
 
             builder.Entity<Research>().Property(x => x.Description)
                 .HasMaxLength(500);
