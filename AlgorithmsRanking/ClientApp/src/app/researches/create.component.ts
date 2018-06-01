@@ -7,7 +7,7 @@ import { ResearchUpdate, ResearchForm } from './researches.models';
     template: `
         <spinner [active]="!value"></spinner>
         <div *ngIf="value">
-            <h3>Новое исследование'</h3>
+            <h3>Новое исследование</h3>
             <research-form
                 [value]="value"
                 (save)="submit($event)"
