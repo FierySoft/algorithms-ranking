@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { SharedModule } from '../shared/shared.module';
+import { CommonModule } from '@angular/common';
 
 import { ControlMessagesComponent } from './control-messages.component';
+import { PersonNameValidatorDirective } from './person-name.validator';
 
 @NgModule({
     imports: [
         FormsModule,
-        SharedModule
+        CommonModule
     ],
     declarations: [
-        ControlMessagesComponent
+        ControlMessagesComponent,
+        PersonNameValidatorDirective
     ],
     providers: [
 
     ],
     exports: [
         ControlMessagesComponent,
+        PersonNameValidatorDirective,
         FormsModule
     ],
 })
