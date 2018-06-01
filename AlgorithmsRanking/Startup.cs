@@ -27,7 +27,7 @@ namespace AlgorithmsRanking
                 {
                     Username = "developer",
                     Password = "zxasqw12",
-                    Roles = new string[] { "developer" },
+                    Roles = new string[] { "Developer" },
                     Subject = "S-0-0-00-0000000000-0000000000-0000000000-0000"
                 });
 

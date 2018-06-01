@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AlgorithmsRanking.Controllers
@@ -13,6 +14,7 @@ namespace AlgorithmsRanking.Controllers
             return new JsonResult(new
             {
                 UserName = User?.Identity?.Name,
+                Roles = new string[] { User?.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value },
                 PhotoUri = "images/dev-user.jpg"
             });
         }
