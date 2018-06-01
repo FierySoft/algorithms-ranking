@@ -65,13 +65,7 @@ namespace AlgorithmsRanking.DbContexts
             builder.Entity<Research>().Property(x => x.Description)
                 .HasMaxLength(500);
 
-            builder.Entity<Research>().HasKey(x => new
-                {
-                    x.CreatorId,
-                    //x.ExecutorId,
-                    x.AlgorithmId,
-                    x.DataSetId
-                });
+            builder.Entity<Research>().HasKey(x => new { x.Id });
         }
     }
 }
