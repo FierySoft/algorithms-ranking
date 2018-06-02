@@ -32,10 +32,17 @@ export class ResearchUpdate {
     dataSetId?: number = null;
 }
 
+export class ResearchPermissions {
+    statusChangeOptions: number[];
+    canEditInput: boolean;
+    canEditOutput: boolean;
+}
+
 export class ResearchForm {
     model: ResearchUpdate;
     algorithms: EntityListItem[];
     dataSets: EntityListItem[];
+    permissions: ResearchPermissions;
 }
 
 export class ResearchStatus {

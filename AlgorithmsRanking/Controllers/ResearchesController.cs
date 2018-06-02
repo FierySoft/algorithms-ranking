@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AlgorithmsRanking.Controllers
 {
     using AlgorithmsRanking.Models;
+    using AlgorithmsRanking.Entities;
     using AlgorithmsRanking.Services;
 
     [Authorize]
@@ -38,8 +39,14 @@ namespace AlgorithmsRanking.Controllers
             var model = new ResearchUpdateForm();
             var algorithms = await _db.GetAlgorithmsListItemsAsync();
             var dataSets = await _db.GetDataSetsListItemsAsync();
+            var permissions = new ResearchPermissions
+            {
+                StatusChangeOptions = new ResearchStatus[] { ResearchStatus.ASSIGNED },
+                CanEditInput = true,
+                CanEditOutput = false
+            };
 
-            return Ok(new { model, algorithms, dataSets });
+            return Ok(new { model, algorithms, dataSets, permissions });
         }
 
         [HttpPost]
