@@ -55,10 +55,18 @@ namespace AlgorithmsRanking.Controllers
             }
         }
 
-        [HttpGet("{id:int}/edit")]
-        public async Task<IActionResult> Edit([FromRoute]int id)
+        [HttpGet("{id:int}/permissions")]
+        public async Task<IActionResult> Permissions([FromRoute]int id, [FromServices]ResearchPermissionsService permissions)
         {
-            var item = (await _db.GetResearchAsync(id));
+            var research = await _db.GetResearchAsync(id);
+
+            return Ok(permissions.Get(research));
+        }
+
+        [HttpGet("{id:int}/edit")]
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromServices]ResearchPermissionsService permissionsService)
+        {
+            var item = await _db.GetResearchAsync(id);
             var model = new ResearchUpdateForm
             {
                 Name = item.Name,
@@ -70,8 +78,9 @@ namespace AlgorithmsRanking.Controllers
 
             var algorithms = await _db.GetAlgorithmsListItemsAsync();
             var dataSets = await _db.GetDataSetsListItemsAsync();
+            var permissions = permissionsService.Get(item);
 
-            return Ok(new { model, algorithms, dataSets });
+            return Ok(new { model, algorithms, dataSets, permissions });
         }
 
         [HttpPut("{id:int}")]

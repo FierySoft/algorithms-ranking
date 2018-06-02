@@ -37,6 +37,7 @@ namespace AlgorithmsRanking
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<Services.ResearchRepository>();
+            services.AddScoped<Services.ResearchPermissionsService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
