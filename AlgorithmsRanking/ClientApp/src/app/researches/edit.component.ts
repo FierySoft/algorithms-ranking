@@ -2,26 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { ResearchesService } from './researches.service';
-import { ResearchUpdate, ResearchForm } from './researches.models';
+import { ResearchForm, ResearchInitForm, ResearchCalculatedForm, ResearchStatus } from './researches.models';
 
 @Component({
-    template: `
-        <spinner [active]="!value"></spinner>
-        <div *ngIf="value">
-            <h3>Исследование '{{ value.model.name }}'</h3>
-            <research-form
-                [value]="value"
-                (save)="submit($event)"
-                (cancel)="cancel()">
-            </research-form>
-            <br><br>
-            <comments [researchId]="id"></comments>
-        </div>
-    `
+    templateUrl: 'edit.component.html'
 })
 export class ResearchesEditComponent implements OnInit {
     value: ResearchForm;
-    id: number;
 
     constructor(
         private _researches: ResearchesService,
@@ -32,20 +19,78 @@ export class ResearchesEditComponent implements OnInit {
         this._route
             .params
             .switchMap((params: Params) => {
-                this.id = +params['id'];
-                return this._researches.getResearchEdit(this.id);
+                return this._researches.getResearchEdit(+params['id']);
             })
             .subscribe(
-                result => this.value = result,
+                result => {
+                    this.value = result;
+                    if (!this.value.calculated && this.value.init.executorId) {
+                        this.value.calculated = new ResearchCalculatedForm();
+                    }
+                },
                 error => console.log(error)
             );
     }
 
-    public submit(value: ResearchUpdate) {
+    public submit(value: ResearchInitForm) {
         if (!value) { return; }
 
-        this.value.model = value;
-        this._researches.putResearch(this.id, this.value.model)
+        this.value.init = value;
+        this._researches.putResearch(this.value.id, this.value.init)
+            .subscribe(
+                result => this._researches.gotoList(),
+                error => console.log(error)
+            );
+    }
+
+
+    public get canStart(): boolean {
+        return !!this.value.permissions.statusChangeOptions.find(x => x === ResearchStatus.inProgress.code);
+    }
+
+    public get canExecute(): boolean {
+        return !!this.value.permissions.statusChangeOptions.find(x => x === ResearchStatus.executed.code);
+    }
+
+    public get canDecline(): boolean {
+        return !!this.value.permissions.statusChangeOptions.find(x => x === ResearchStatus.declined.code);
+    }
+
+    public get canClose(): boolean {
+        return !!this.value.permissions.statusChangeOptions.find(x => x === ResearchStatus.closed.code);
+    }
+
+
+    public start() {
+        if (!this.value) { return; }
+        this._researches.startResearch(this.value.id)
+            .subscribe(
+                result => this._researches.gotoList(),
+                error => console.log(error)
+            );
+    }
+
+    public execute() {
+        if (!this.value.calculated) { return; }
+        this._researches.executeResearch(this.value.id, this.value.calculated)
+            .subscribe(
+                result => this._researches.gotoList(),
+                error => console.log(error)
+            );
+    }
+
+    public decline() {
+        if (!this.value) { return; }
+        this._researches.declineResearch(this.value.id)
+            .subscribe(
+                result => this._researches.gotoList(),
+                error => console.log(error)
+            );
+    }
+
+    public close() {
+        if (!this.value) { return; }
+        this._researches.closeResearch(this.value.id)
             .subscribe(
                 result => this._researches.gotoList(),
                 error => console.log(error)

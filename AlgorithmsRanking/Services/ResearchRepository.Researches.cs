@@ -33,15 +33,15 @@ namespace AlgorithmsRanking.Services
             return _db.Researches.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Research> CreateResearchAsync(ResearchCreateForm model)
+        public async Task<Research> CreateResearchAsync(ResearchInitForm model)
         {
             var create = new Research
             {
                 Name = model.Name,
                 Description = model.Description,
-                CreatorId = model.CreatorId,
                 AlgorithmId = model.AlgorithmId,
                 DataSetId = model.DataSetId,
+                CreatorId = model.CreatorId,
                 CreatedAt = DateTime.Now,
                 Status = ResearchStatus.OPENED,
             };
@@ -53,7 +53,7 @@ namespace AlgorithmsRanking.Services
             return result;
         }
 
-        public async Task<Research> UpdateResearchAsync(int id, ResearchUpdateForm model)
+        public async Task<Research> UpdateResearchAsync(int id, ResearchInitForm model)
         {
             var update = await GetResearchAsync(id, false);
 
@@ -74,6 +74,74 @@ namespace AlgorithmsRanking.Services
 
             _db.Researches.Remove(remove);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<Research> AssignResearchToAsync(int id, int executorId)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ExecutorId = executorId;
+            task.AssignedAt = DateTime.Now;
+            task.Status = ResearchStatus.ASSIGNED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> StartResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.StartedAt = DateTime.Now;
+            task.Status = ResearchStatus.IN_PROGRESS;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> ExecuteResearchAsync(int id, ResearchCalculatedForm rates)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.AccuracyRate = rates.AccuracyRate;
+            task.EfficiencyRate = rates.EfficiencyRate;
+            task.ExecutedAt = DateTime.Now;
+            task.Status = ResearchStatus.EXECUTED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> DeclineResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ExecutedAt = null;
+            task.Status = ResearchStatus.DECLINED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> CloseResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ClosedAt = DateTime.Now;
+            task.Status = ResearchStatus.CLOSED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
         }
     }
 }

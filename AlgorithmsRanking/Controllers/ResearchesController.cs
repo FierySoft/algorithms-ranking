@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AlgorithmsRanking.Controllers
 {
     using AlgorithmsRanking.Models;
+    using AlgorithmsRanking.Entities;
     using AlgorithmsRanking.Services;
 
     [Authorize]
@@ -35,19 +36,41 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var model = new ResearchUpdateForm();
-            var algorithms = await _db.GetAlgorithmsListItemsAsync();
-            var dataSets = await _db.GetDataSetsListItemsAsync();
+            var model = new ResearchForm
+            {
+                Id = 0,
+                Init = new ResearchInitForm(),
+                Calculated = null,
+                Algorithms = await _db.GetAlgorithmsListItemsAsync(),
+                DataSets = await _db.GetDataSetsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsAsync(),
+                Permissions = new ResearchPermissions
+                {
+                    StatusChangeOptions = new ResearchStatus[] { ResearchStatus.ASSIGNED },
+                    CanEditInit = true,
+                    CanEditCalculated = false,
+                    CanPostComment = false
+                }
+            };
 
-            return Ok(new { model, algorithms, dataSets });
+            return Ok(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]ResearchCreateForm model)
+        public async Task<IActionResult> Create([FromBody]ResearchInitForm model)
         {
             try
             {
-                return Ok(await _db.CreateResearchAsync(model));
+                model.CreatorId = 1; // TODO : заменить на реальный id!
+
+                var result = await _db.CreateResearchAsync(model);
+
+                if (model.ExecutorId.HasValue)
+                {
+                    result = await _db.AssignResearchToAsync(result.Id, model.ExecutorId.Value);
+                }
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -55,31 +78,63 @@ namespace AlgorithmsRanking.Controllers
             }
         }
 
-        [HttpGet("{id:int}/edit")]
-        public async Task<IActionResult> Edit([FromRoute]int id)
+        [HttpGet("{id:int}/permissions")]
+        public async Task<IActionResult> Permissions([FromRoute]int id, [FromServices]ResearchPermissionsService permissions)
         {
-            var item = (await _db.GetResearchAsync(id));
-            var model = new ResearchUpdateForm
+            var research = await _db.GetResearchAsync(id);
+
+            return Ok(permissions.Get(research));
+        }
+
+        [HttpGet("{id:int}/edit")]
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromServices]ResearchPermissionsService permissionsService)
+        {
+            var item = await _db.GetResearchAsync(id);
+
+            var model = new ResearchForm
             {
-                Name = item.Name,
-                Description = item.Description,
-                AlgorithmId = item.AlgorithmId,
-                DataSetId = item.DataSetId,
-                ExecutorId = item.ExecutorId
+                Id = item.Id,
+                Init = new ResearchInitForm
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    AlgorithmId = item.AlgorithmId,
+                    Algorithm = item.Algorithm,
+                    DataSetId = item.DataSetId,
+                    DataSet = item.DataSet,
+                    CreatorId = item.CreatorId,
+                    Creator = item.Creator,
+                    ExecutorId = item.ExecutorId,
+                    Executor = item.Executor
+                },
+                Calculated = item.AccuracyRate.HasValue && item.EfficiencyRate.HasValue ?
+                    new ResearchCalculatedForm
+                    {
+                        AccuracyRate = item.AccuracyRate.Value,
+                        EfficiencyRate = item.EfficiencyRate.Value
+                    } : null,
+                Algorithms = await _db.GetAlgorithmsListItemsAsync(),
+                DataSets = await _db.GetDataSetsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsAsync(),
+                Permissions = permissionsService.Get(item)
             };
 
-            var algorithms = await _db.GetAlgorithmsListItemsAsync();
-            var dataSets = await _db.GetDataSetsListItemsAsync();
-
-            return Ok(new { model, algorithms, dataSets });
+            return Ok(model);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]ResearchUpdateForm model)
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]ResearchInitForm model)
         {
             try
             {
-                return Ok(await _db.UpdateResearchAsync(id, model));
+                var result = await _db.UpdateResearchAsync(id, model);
+
+                if (model.ExecutorId.HasValue)
+                {
+                    result = await _db.AssignResearchToAsync(id, model.ExecutorId.Value);
+                }
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -95,6 +150,58 @@ namespace AlgorithmsRanking.Controllers
                 await _db.RemoveResearchAsync(id);
 
                 return Ok(new { deleted = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("{id:int}/start")]
+        public async Task<IActionResult> Start([FromRoute]int id)
+        {
+            try
+            {
+                return Ok(await _db.StartResearchAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("{id:int}/execute")]
+        public async Task<IActionResult> Execute([FromRoute]int id, [FromBody]ResearchCalculatedForm rates)
+        {
+            try
+            {
+                return Ok(await _db.ExecuteResearchAsync(id, rates));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("{id:int}/decline")]
+        public async Task<IActionResult> Decline([FromRoute]int id)
+        {
+            try
+            {
+                return Ok(await _db.DeclineResearchAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("{id:int}/close")]
+        public async Task<IActionResult> Close([FromRoute]int id)
+        {
+            try
+            {
+                return Ok(await _db.CloseResearchAsync(id));
             }
             catch (Exception ex)
             {

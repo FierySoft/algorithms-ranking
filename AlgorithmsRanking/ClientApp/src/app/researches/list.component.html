@@ -15,7 +15,10 @@
     </thead>
     <tbody *ngIf="items">
         <tr *ngFor="let research of items">
-            <td>{{ research.name }}</td>
+            <td>
+                <research-status [code]="research.status"></research-status>
+                {{ research.name }}
+            </td>
             <td>{{ research.createdAt | date: 'dd.MM.yyyy HH:mm' }}</td>
             <td>
                 <i (click)="selectItem(research.id)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |

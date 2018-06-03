@@ -1,0 +1,15 @@
+﻿using System.Collections.Generic;
+
+namespace AlgorithmsRanking.Models
+{
+    public class ResearchForm
+    {
+        public int Id { get; set; }
+        public ResearchInitForm Init { get; set; }
+        public ResearchCalculatedForm Calculated { get; set; }
+        public IEnumerable<EntityListItem> Algorithms { get; set; }
+        public IEnumerable<EntityListItem> DataSets { get; set; }
+        public IEnumerable<EntityListItem> Executors { get; set; }
+        public ResearchPermissions Permissions { get; set; }
+    }
+}
