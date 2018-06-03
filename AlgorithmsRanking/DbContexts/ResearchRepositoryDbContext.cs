@@ -16,6 +16,7 @@ namespace AlgorithmsRanking.DbContexts
         public DbSet<Algorithm> Algorithms { get; set; }
         public DbSet<DataSet> DataSets { get; set; }
         public DbSet<Research> Researches { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -65,7 +66,18 @@ namespace AlgorithmsRanking.DbContexts
             builder.Entity<Research>().Property(x => x.Description)
                 .HasMaxLength(500);
 
-            builder.Entity<Research>().HasKey(x => new { x.Id });
+            builder.Entity<Research>().HasKey(x => x.Id);
+
+
+            builder.Entity<Comment>().Property(x => x.Author)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            builder.Entity<Comment>().Property(x => x.Content)
+                .IsRequired()
+                .HasMaxLength(500);
+
+            builder.Entity<Comment>().HasKey(x => x.Id); ;
         }
     }
 }
