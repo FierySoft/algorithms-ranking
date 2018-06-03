@@ -61,7 +61,16 @@ namespace AlgorithmsRanking.Controllers
         {
             try
             {
-                return Ok(await _db.CreateResearchAsync(model));
+                model.CreatorId = 1; // TODO : заменить на реальный id!
+
+                var result = await _db.CreateResearchAsync(model);
+
+                if (model.ExecutorId.HasValue)
+                {
+                    result = await _db.AssignResearchToAsync(result.Id, model.ExecutorId.Value);
+                }
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -98,11 +107,12 @@ namespace AlgorithmsRanking.Controllers
                     ExecutorId = item.ExecutorId,
                     Executor = item.Executor
                 },
-                Calculated = new ResearchCalculatedForm
-                {
-                    AccuracyRate = item.AccuracyRate ?? 0.0f,
-                    EfficiencyRate = item.EfficiencyRate ?? 0.0f
-                },
+                Calculated = item.AccuracyRate.HasValue && item.EfficiencyRate.HasValue ?
+                    new ResearchCalculatedForm
+                    {
+                        AccuracyRate = item.AccuracyRate.Value,
+                        EfficiencyRate = item.EfficiencyRate.Value
+                    } : null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),
                 Executors = await _db.GetPersonsListItemsAsync(),
@@ -117,7 +127,14 @@ namespace AlgorithmsRanking.Controllers
         {
             try
             {
-                return Ok(await _db.UpdateResearchAsync(id, model));
+                var result = await _db.UpdateResearchAsync(id, model);
+
+                if (model.ExecutorId.HasValue)
+                {
+                    result = await _db.AssignResearchToAsync(id, model.ExecutorId.Value);
+                }
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
