@@ -103,10 +103,12 @@ namespace AlgorithmsRanking.Services
             return task;
         }
 
-        public async Task<Research> ExecuteResearchAsync(int id)
+        public async Task<Research> ExecuteResearchAsync(int id, ResearchCalculatedForm rates)
         {
             var task = await GetResearchAsync(id);
 
+            task.AccuracyRate = rates.AccuracyRate;
+            task.EfficiencyRate = rates.EfficiencyRate;
             task.ExecutedAt = DateTime.Now;
             task.Status = ResearchStatus.EXECUTED;
 

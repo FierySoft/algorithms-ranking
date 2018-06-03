@@ -156,5 +156,57 @@ namespace AlgorithmsRanking.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpGet("{id:int}/start")]
+        public async Task<IActionResult> Start([FromRoute]int id)
+        {
+            try
+            {
+                return Ok(await _db.StartResearchAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("{id:int}/execute")]
+        public async Task<IActionResult> Execute([FromRoute]int id, [FromBody]ResearchCalculatedForm rates)
+        {
+            try
+            {
+                return Ok(await _db.ExecuteResearchAsync(id, rates));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("{id:int}/decline")]
+        public async Task<IActionResult> Decline([FromRoute]int id)
+        {
+            try
+            {
+                return Ok(await _db.DeclineResearchAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("{id:int}/close")]
+        public async Task<IActionResult> Close([FromRoute]int id)
+        {
+            try
+            {
+                return Ok(await _db.CloseResearchAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
