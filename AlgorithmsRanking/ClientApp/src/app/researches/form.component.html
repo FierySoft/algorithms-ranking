@@ -4,7 +4,7 @@
         <div class="form-group">
             <label for="name" class="control-label">Название</label>
             <input type="text"
-                [(ngModel)]="value.model.name"
+                [(ngModel)]="value.name"
                 required
                 maxlength="100"
                 placeholder="Введите название"
@@ -15,7 +15,7 @@
         <div class="form-group">
             <label for="description" class="control-label">Описание</label>
             <textarea type="text"
-                [(ngModel)]="value.model.description"
+                [(ngModel)]="value.description"
                 required
                 maxlength="500"
                 cols="7"
@@ -31,24 +31,24 @@
         <div class="form-group">
             <label for="algorithmId" class="control-label">Алгоритм</label>
             <select
-                [(ngModel)]="value.model.algorithmId"
+                [(ngModel)]="value.algorithmId"
                 required
                 name="algorithmId" ngModel #algorithmId="ngModel"
                 class="form-control">
                 <option disabled [value]="null">Выберите алгоритм</option>
-                <option *ngFor="let a of value.algorithms" [value]="a.id">{{ a.name }}</option>
+                <option *ngFor="let a of algorithms" [value]="a.id">{{ a.name }}</option>
             </select>
             <control-messages [control]="algorithmId" class="error-message text-danger"></control-messages>
         </div>
         <div class="form-group">
             <label for="dataSetId" class="control-label">Набор данных</label>
             <select
-                [(ngModel)]="value.model.dataSetId"
+                [(ngModel)]="value.dataSetId"
                 required
                 name="dataSetId" ngModel #dataSetId="ngModel"
                 class="form-control">
                 <option disabled [value]="null">Выберите набор данных</option>
-                <option *ngFor="let ds of value.dataSets" [value]="ds.id">{{ ds.name }}</option>
+                <option *ngFor="let ds of dataSets" [value]="ds.id">{{ ds.name }}</option>
             </select>
             <control-messages [control]="dataSetId" class="error-message text-danger"></control-messages>
         </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ResearchesService } from './researches.service';
-import { ResearchUpdate, ResearchForm } from './researches.models';
+import { ResearchForm, ResearchInitForm } from './researches.models';
 
 @Component({
     template: `
@@ -9,7 +9,9 @@ import { ResearchUpdate, ResearchForm } from './researches.models';
         <div *ngIf="value">
             <h3>Новое исследование</h3>
             <research-form
-                [value]="value"
+                [value]="value.init"
+                [algorithms]="value.algorithms"
+                [dataSets]="value.dataSets"
                 (save)="submit($event)"
                 (cancel)="cancel()">
             </research-form>
@@ -24,16 +26,16 @@ export class ResearchesCreateComponent implements OnInit {
     ngOnInit() {
         this._researches.getResearchCreate()
             .subscribe(
-                result => { this.value = result; this.value.model = new ResearchUpdate() },
+                result => { this.value = result; this.value.init = new ResearchInitForm(); },
                 error => console.log(error)
             );
     }
 
-    public submit(value: ResearchUpdate) {
+    public submit(value: ResearchInitForm) {
         if (!value) { return; }
 
-        this.value.model = value;
-        this._researches.postResearch(this.value.model)
+        this.value.init = value;
+        this._researches.postResearch(this.value.init)
             .subscribe(
                 result => this._researches.gotoList(),
                 error => console.log(error)

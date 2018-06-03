@@ -23,25 +23,38 @@ export class Research {
     ClosedAt?: Date;
 }
 
-export class ResearchUpdate {
+export class ResearchInitForm {
     name: string;
     description: string;
-    creatorId: number = 1; // TODO: временное решение, выпилить!
-    executorId?: number = 2; // TODO: временное решение, выпилить!
     algorithmId?: number = null;
+    algorithm: Algorithm;
     dataSetId?: number = null;
+    dataSet: DataSet;
+    creatorId: number = 1; // TODO: временное решение, выпилить!
+    creator: Person;
+    executorId?: number = 2; // TODO: временное решение, выпилить!
+    executor: Person;
+}
+
+export class ResearchCalculatedForm {
+    accuracyRate: number;
+    efficiencyRate: number;
 }
 
 export class ResearchPermissions {
     statusChangeOptions: number[];
     canEditInput: boolean;
     canEditOutput: boolean;
+    canPostComment: boolean;
 }
 
 export class ResearchForm {
-    model: ResearchUpdate;
+    id: number;
+    init: ResearchInitForm;
+    calculated: ResearchCalculatedForm;
     algorithms: EntityListItem[];
     dataSets: EntityListItem[];
+    executors: EntityListItem[];
     permissions: ResearchPermissions;
 }
 

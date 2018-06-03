@@ -36,21 +36,28 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var model = new ResearchUpdateForm();
-            var algorithms = await _db.GetAlgorithmsListItemsAsync();
-            var dataSets = await _db.GetDataSetsListItemsAsync();
-            var permissions = new ResearchPermissions
+            var model = new ResearchForm
             {
-                StatusChangeOptions = new ResearchStatus[] { ResearchStatus.ASSIGNED },
-                CanEditInput = true,
-                CanEditOutput = false
+                Id = 0,
+                Init = new ResearchInitForm(),
+                Calculated = null,
+                Algorithms = await _db.GetAlgorithmsListItemsAsync(),
+                DataSets = await _db.GetDataSetsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsAsync(),
+                Permissions = new ResearchPermissions
+                {
+                    StatusChangeOptions = new ResearchStatus[] { ResearchStatus.ASSIGNED },
+                    CanEditInit = true,
+                    CanEditCalculated = false,
+                    CanPostComment = false
+                }
             };
 
-            return Ok(new { model, algorithms, dataSets, permissions });
+            return Ok(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]ResearchCreateForm model)
+        public async Task<IActionResult> Create([FromBody]ResearchInitForm model)
         {
             try
             {
@@ -74,24 +81,39 @@ namespace AlgorithmsRanking.Controllers
         public async Task<IActionResult> Edit([FromRoute]int id, [FromServices]ResearchPermissionsService permissionsService)
         {
             var item = await _db.GetResearchAsync(id);
-            var model = new ResearchUpdateForm
+
+            var model = new ResearchForm
             {
-                Name = item.Name,
-                Description = item.Description,
-                AlgorithmId = item.AlgorithmId,
-                DataSetId = item.DataSetId,
-                ExecutorId = item.ExecutorId
+                Id = item.Id,
+                Init = new ResearchInitForm
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    AlgorithmId = item.AlgorithmId,
+                    Algorithm = item.Algorithm,
+                    DataSetId = item.DataSetId,
+                    DataSet = item.DataSet,
+                    CreatorId = item.CreatorId,
+                    Creator = item.Creator,
+                    ExecutorId = item.ExecutorId,
+                    Executor = item.Executor
+                },
+                Calculated = new ResearchCalculatedForm
+                {
+                    AccuracyRate = item.AccuracyRate ?? 0.0f,
+                    EfficiencyRate = item.EfficiencyRate ?? 0.0f
+                },
+                Algorithms = await _db.GetAlgorithmsListItemsAsync(),
+                DataSets = await _db.GetDataSetsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsAsync(),
+                Permissions = permissionsService.Get(item)
             };
 
-            var algorithms = await _db.GetAlgorithmsListItemsAsync();
-            var dataSets = await _db.GetDataSetsListItemsAsync();
-            var permissions = permissionsService.Get(item);
-
-            return Ok(new { model, algorithms, dataSets, permissions });
+            return Ok(model);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]ResearchUpdateForm model)
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]ResearchInitForm model)
         {
             try
             {
