@@ -75,5 +75,71 @@ namespace AlgorithmsRanking.Services
             _db.Researches.Remove(remove);
             await _db.SaveChangesAsync();
         }
+
+        public async Task<Research> AssignResearchToAsync(int id, int executorId)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ExecutorId = executorId;
+            task.AssignedAt = DateTime.Now;
+            task.Status = ResearchStatus.ASSIGNED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> StartResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.StartedAt = DateTime.Now;
+            task.Status = ResearchStatus.IN_PROGRESS;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> ExecuteResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ExecutedAt = DateTime.Now;
+            task.Status = ResearchStatus.EXECUTED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> DeclineResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ExecutedAt = null;
+            task.Status = ResearchStatus.DECLINED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
+
+        public async Task<Research> CloseResearchAsync(int id)
+        {
+            var task = await GetResearchAsync(id);
+
+            task.ClosedAt = DateTime.Now;
+            task.Status = ResearchStatus.CLOSED;
+
+            _db.Researches.Update(task);
+            await _db.SaveChangesAsync();
+
+            return task;
+        }
     }
 }
