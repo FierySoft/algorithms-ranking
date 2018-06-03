@@ -5,6 +5,7 @@ import { ValidationModule } from '../validation/validation.module';
 
 import { ResearchesRoutingModule, researchesComponents } from './researches.routing';
 import { ResearchesService } from './researches.service';
+import { CommentsService } from './comments/comments.service';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { ResearchesService } from './researches.service';
         ...researchesComponents
     ],
     providers: [
-        ResearchesService
+        ResearchesService,
+        CommentsService
     ],
     exports: [
 

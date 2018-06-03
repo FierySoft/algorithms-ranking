@@ -14,6 +14,8 @@ import { ResearchUpdate, ResearchForm } from './researches.models';
                 (save)="submit($event)"
                 (cancel)="cancel()">
             </research-form>
+            <br><br>
+            <comments [researchId]="id"></comments>
         </div>
     `
 })
