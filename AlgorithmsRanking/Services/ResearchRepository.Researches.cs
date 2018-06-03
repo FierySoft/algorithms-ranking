@@ -33,15 +33,15 @@ namespace AlgorithmsRanking.Services
             return _db.Researches.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Research> CreateResearchAsync(ResearchCreateForm model)
+        public async Task<Research> CreateResearchAsync(ResearchInitForm model)
         {
             var create = new Research
             {
                 Name = model.Name,
                 Description = model.Description,
-                CreatorId = model.CreatorId,
                 AlgorithmId = model.AlgorithmId,
                 DataSetId = model.DataSetId,
+                CreatorId = model.CreatorId,
                 CreatedAt = DateTime.Now,
                 Status = ResearchStatus.OPENED,
             };
@@ -53,7 +53,7 @@ namespace AlgorithmsRanking.Services
             return result;
         }
 
-        public async Task<Research> UpdateResearchAsync(int id, ResearchUpdateForm model)
+        public async Task<Research> UpdateResearchAsync(int id, ResearchInitForm model)
         {
             var update = await GetResearchAsync(id, false);
 
