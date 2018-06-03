@@ -1,0 +1,38 @@
+<div *ngIf="value">
+    <div>
+        <label>Описание</label>
+        <p>{{ value.description }}</p>
+    </div>
+    <div class="col-md-3" style="padding-left:0">
+        <label>Алгоритм</label>
+        <p>"{{ value.algorithm.name }}", Тип: "{{ value.algorithm.type }}"</p>
+    </div>
+    <div class="col-md-3">
+        <label>Набор данных</label>
+        <p>"{{ value.dataSet.name }}", Тип: "{{ value.dataSet.type }}"</p>
+    </div>
+    <div class="col-md-3">
+        <label>Руководитель:</label> {{ value.creator.shortName }}
+        <p>
+            <research-status [code]="0"></research-status> Создано
+            от {{ value.createdAt | date: 'dd.MM.yyyy HH:mm' }}
+        </p>
+        <p *ngIf="value.closedAt">
+            <research-status [code]="5" [showLabel]="true"></research-status>
+            от {{ value.closedAt | date: 'dd.MM.yyyy HH:mm' }}
+        </p>
+    </div>
+    <div class="col-md-3">
+        <label>Исполнитель:</label> {{ value.executor.shortName }}
+        <p *ngIf="value.startedAt">
+            <research-status [code]="2" [showLabel]="true"></research-status>
+            от {{ value.startedAt | date: 'dd.MM.yyyy HH:mm' }}
+        </p>
+        <div *ngIf="value.executedAt">
+            <research-status [code]="5" [showLabel]="true"></research-status>
+            от {{ value.executedAt | date: 'dd.MM.yyyy HH:mm' }}
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>

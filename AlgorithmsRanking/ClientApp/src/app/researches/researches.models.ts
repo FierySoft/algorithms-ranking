@@ -17,10 +17,10 @@ export class Research {
     efficiencyRate?: number;
     status: number;
     createdAt: Date;
-    AssignedAt?: Date;
-    StartedAt?: Date;
-    ExecutedAt?: Date;
-    ClosedAt?: Date;
+    assignedAt?: Date;
+    startedAt?: Date;
+    executedAt?: Date;
+    closedAt?: Date;
 }
 
 export class ResearchInitForm {
@@ -30,9 +30,9 @@ export class ResearchInitForm {
     algorithm: Algorithm;
     dataSetId?: number = null;
     dataSet: DataSet;
-    creatorId: number = 1; // TODO: временное решение, выпилить!
+    creatorId: number;
     creator: Person;
-    executorId?: number = 2; // TODO: временное решение, выпилить!
+    executorId?: number = null;
     executor: Person;
 }
 
@@ -43,8 +43,8 @@ export class ResearchCalculatedForm {
 
 export class ResearchPermissions {
     statusChangeOptions: number[];
-    canEditInput: boolean;
-    canEditOutput: boolean;
+    canEditInit: boolean;
+    canEditCalculated: boolean;
     canPostComment: boolean;
 }
 

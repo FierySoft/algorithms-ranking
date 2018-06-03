@@ -18,7 +18,7 @@
                 [(ngModel)]="value.description"
                 required
                 maxlength="500"
-                cols="7"
+                rows="4"
                 placeholder="Введите описание"
                 name="description" ngModel #description="ngModel"
                 class="form-control">
@@ -51,6 +51,17 @@
                 <option *ngFor="let ds of dataSets" [value]="ds.id">{{ ds.name }}</option>
             </select>
             <control-messages [control]="dataSetId" class="error-message text-danger"></control-messages>
+        </div>
+        <div class="form-group">
+            <label for="executorId" class="control-label">Исполнитель</label>
+            <select
+                [(ngModel)]="value.executorId"
+                name="executorId" ngModel #executorId="ngModel"
+                class="form-control">
+                <option [value]="null">Исполнитель не назначен</option>
+                <option *ngFor="let e of executors" [value]="e.id">{{ e.name }}</option>
+            </select>
+            <control-messages [control]="executorId" class="error-message text-danger"></control-messages>
         </div>
     </div>
 

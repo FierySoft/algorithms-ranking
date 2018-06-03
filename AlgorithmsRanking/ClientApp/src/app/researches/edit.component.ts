@@ -9,13 +9,19 @@ import { ResearchForm, ResearchInitForm } from './researches.models';
         <spinner [active]="!value"></spinner>
         <div *ngIf="value">
             <h3>Исследование '{{ value.init.name }}'</h3>
-            <research-form
-                [value]="value.init"
-                [algorithms]="value.algorithms"
-                [dataSets]="value.dataSets"
-                (save)="submit($event)"
-                (cancel)="cancel()">
-            </research-form>
+            <div *ngIf="value.permissions.canEditInit">
+                <research-form
+                    [value]="value.init"
+                    [algorithms]="value.algorithms"
+                    [dataSets]="value.dataSets"
+                    [executors]="value.executors"
+                    (save)="submit($event)"
+                    (cancel)="cancel()">
+                </research-form>
+            </div>
+            <div *ngIf="!value.permissions.canEditInit">
+                <research-card [id]="value.id"></research-card>
+            </div>
             <br><br>
             <comments [researchId]="value.id"></comments>
         </div>

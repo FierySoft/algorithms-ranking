@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ResearchesComponent } from './researches.component';
 import { ResearchStatusComponent } from './status.component';
 import { ResearchFormComponent } from './form.component';
+import { ResearchCardComponent } from './card.component';
 import { ResearchesListComponent } from './list.component';
 import { ResearchesCreateComponent } from './create.component';
 import { ResearchesEditComponent } from './edit.component';
@@ -41,6 +42,7 @@ export const researchesComponents = [
     ResearchesComponent,
     ResearchStatusComponent,
     ResearchFormComponent,
+    ResearchCardComponent,
     ResearchesListComponent,
     ResearchesCreateComponent,
     ResearchesEditComponent,

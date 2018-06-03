@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ResearchesService } from './researches.service';
-import { ResearchInitForm, Algorithm, DataSet } from './researches.models';
+import { ResearchInitForm, EntityListItem } from './researches.models';
 
 @Component({
     selector: 'research-form',
@@ -10,8 +10,10 @@ import { ResearchInitForm, Algorithm, DataSet } from './researches.models';
 })
 export class ResearchFormComponent {
     @Input() value: ResearchInitForm;
-    @Input() algorithms: Algorithm[] = [];
-    @Input() dataSets: DataSet[] = [];
+    @Input() algorithms: EntityListItem[] = [];
+    @Input() dataSets: EntityListItem[] = [];
+    @Input() executors: EntityListItem[] = [];
+
     @Output('save') onSubmit: EventEmitter<ResearchInitForm> = new EventEmitter();
     @Output('cancel') onCancel: EventEmitter<boolean> = new EventEmitter();
 

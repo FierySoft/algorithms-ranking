@@ -12,6 +12,7 @@ import { ResearchForm, ResearchInitForm } from './researches.models';
                 [value]="value.init"
                 [algorithms]="value.algorithms"
                 [dataSets]="value.dataSets"
+                [executors]="value.executors"
                 (save)="submit($event)"
                 (cancel)="cancel()">
             </research-form>

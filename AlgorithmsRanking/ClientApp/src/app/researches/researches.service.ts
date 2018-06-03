@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Research, ResearchUpdate, ResearchForm } from './researches.models';
+import { Research, ResearchForm, ResearchInitForm } from './researches.models';
 
 @Injectable()
 export class ResearchesService {
@@ -27,13 +27,13 @@ export class ResearchesService {
     public getResearchCreate = (): Observable<ResearchForm> =>
         this._http.get<ResearchForm>(`${this._url}/create`)
 
-    public postResearch = (value: ResearchUpdate): Observable<Research> =>
+    public postResearch = (value: ResearchInitForm): Observable<Research> =>
         this._http.post<Research>(`${this._url}`, value)
 
     public getResearchEdit = (id: number): Observable<ResearchForm> =>
         this._http.get<ResearchForm>(`${this._url}/${id}/edit`)
 
-    public putResearch = (id: number, value: ResearchUpdate): Observable<Research> =>
+    public putResearch = (id: number, value: ResearchInitForm): Observable<Research> =>
         this._http.put<Research>(`${this._url}/${id}`, value)
 
     public deleteResearch = (id: number): any =>
