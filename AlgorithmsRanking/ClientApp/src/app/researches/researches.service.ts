@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Research, ResearchForm, ResearchInitForm } from './researches.models';
+import { Research, ResearchForm, ResearchInitForm, ResearchCalculatedForm } from './researches.models';
 
 @Injectable()
 export class ResearchesService {
@@ -42,6 +42,18 @@ export class ResearchesService {
                 result => window.location.reload(),
                 error => console.log(error)
             )
+
+    public startResearch = (id: number): Observable<Research> =>
+        this._http.get<Research>(`${this._url}/${id}/start`)
+
+    public executeResearch = (id: number, value: ResearchCalculatedForm): Observable<Research> =>
+        this._http.post<Research>(`${this._url}/${id}/execute`, value)
+
+    public declineResearch = (id: number): Observable<Research> =>
+        this._http.get<Research>(`${this._url}/${id}/decline`)
+
+    public closeResearch = (id: number): Observable<Research> =>
+        this._http.get<Research>(`${this._url}/${id}/close`)
 
 
     public gotoList(): void {
