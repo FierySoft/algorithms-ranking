@@ -71,3 +71,12 @@ export class EntityListItem {
     id: number;
     name: string;
 }
+
+export class Comment {
+    id: number;
+    researchId: number;
+    content: string;
+    author: string;
+    postedAt: Date;
+    isDeleted: boolean;
+}

@@ -7,6 +7,8 @@ import { ResearchesListComponent } from './list.component';
 import { ResearchesCreateComponent } from './create.component';
 import { ResearchesEditComponent } from './edit.component';
 
+import { CommentsComponent, CommentsListComponent, CommentCreateComponent } from './comments';
+
 
 const routes: Routes = [
     {
@@ -39,5 +41,6 @@ export const researchesComponents = [
     ResearchFormComponent,
     ResearchesListComponent,
     ResearchesCreateComponent,
-    ResearchesEditComponent
+    ResearchesEditComponent,
+    CommentsComponent, CommentsListComponent, CommentCreateComponent
 ];
