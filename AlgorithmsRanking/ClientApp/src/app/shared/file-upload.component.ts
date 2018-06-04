@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 
+import { Attachment } from '../app.models';
+
 @Component({
     selector: 'file-upload',
     template: `
@@ -94,12 +96,12 @@ export class FileUploadComponent {
     @Input() multiple: boolean = true;
     @Input() preview: boolean = true;
 
-    @Output('upload') filesChanged: EventEmitter<string[]> = new EventEmitter();
+    @Output('upload') filesChanged: EventEmitter<Attachment[]> = new EventEmitter();
 
     progress: number;
     message: string;
     fileName: string;
-    urls: string[] = [];
+    files: Attachment[] = [];
 
     constructor(private _http: HttpClient) { }
 
@@ -126,8 +128,8 @@ export class FileUploadComponent {
                 this.progress = Math.round(100 * event.loaded / event.total);
             } else if (event.type === HttpEventType.Response) {
                 this.message = event.body['message'];
-                (event.body['urls'] as string[]).forEach(x => this.urls.push(x));
-                this.filesChanged.emit(this.urls);
+                (event.body['files'] as Attachment[]).forEach(x => this.files.push(x));
+                this.filesChanged.emit(this.files);
             }
         });
     }

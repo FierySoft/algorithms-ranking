@@ -8,7 +8,7 @@
         public int AttributesCount { get; set; }
         public int StringsCount { get; set; }
 
-        public string[] Files { get; set; }
+        public Attachment[] Files { get; set; }
         public int FilesCount => Files != null ? Files.Length : 0;
 
 

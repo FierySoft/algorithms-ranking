@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace AlgorithmsRanking.Controllers
 {
+    using AlgorithmsRanking.Entities;
     using AlgorithmsRanking.Models;
 
     [Produces("application/json")]
@@ -36,7 +37,7 @@ namespace AlgorithmsRanking.Controllers
                     Directory.CreateDirectory(newPath);
                 }
 
-                var urls = new List<string>();
+                var files = new List<Attachment>();
 
                 foreach (var file in Request.Form.Files)
                 {
@@ -49,11 +50,11 @@ namespace AlgorithmsRanking.Controllers
                             file.CopyTo(stream);
                         }
 
-                        urls.Add($"{urlBasePath}/{fileName}");
+                        files.Add(new Attachment(0, $"{urlBasePath}/{fileName}", file.Length, file.Name));
                     }
                 }
 
-                return Ok(new { message = "Загрузка успешно завершена", urls });
+                return Ok(new { message = "Загрузка успешно завершена", files });
             }
             catch (Exception ex)
             {

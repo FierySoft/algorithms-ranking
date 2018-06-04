@@ -18,7 +18,7 @@ namespace AlgorithmsRanking.DbContexts
         public DbSet<Research> Researches { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
-
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,6 +41,8 @@ namespace AlgorithmsRanking.DbContexts
                 .IsRequired()
                 .HasMaxLength(12);
 
+            builder.Entity<Person>().HasKey(x => x.Id);
+
 
             builder.Entity<Algorithm>().Property(x => x.Name)
                 .IsRequired()
@@ -50,6 +52,8 @@ namespace AlgorithmsRanking.DbContexts
                 .IsRequired()
                 .HasMaxLength(25);
 
+            builder.Entity<Algorithm>().HasKey(x => x.Id);
+
 
             builder.Entity<DataSet>().Property(x => x.Name)
                 .IsRequired()
@@ -58,6 +62,8 @@ namespace AlgorithmsRanking.DbContexts
             builder.Entity<DataSet>().Property(p => p.Type)
                 .IsRequired()
                 .HasMaxLength(25);
+
+            builder.Entity<DataSet>().HasKey(x => x.Id);
 
             builder.Entity<DataSet>().Ignore(c => c.Files);
             builder.Entity<DataSet>().Ignore(c => c.FilesCount);
@@ -81,7 +87,16 @@ namespace AlgorithmsRanking.DbContexts
                 .IsRequired()
                 .HasMaxLength(500);
 
-            builder.Entity<Comment>().HasKey(x => x.Id); ;
+            builder.Entity<Comment>().HasKey(x => x.Id);
+
+
+            builder.Entity<Attachment>().Property(x => x.Url)
+                .IsRequired();
+
+            builder.Entity<Attachment>().Property(x => x.Name)
+                .IsRequired();
+
+            builder.Entity<Attachment>().HasKey(x => x.Id);
         }
     }
 }

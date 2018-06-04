@@ -18,19 +18,24 @@ namespace AlgorithmsRanking.Services
                 .ToArrayAsync();
         }
 
-        public Task<Research> GetResearchAsync(int id, bool includeProperties = true)
+        public async Task<Research> GetResearchAsync(int id, bool includeProperties = true)
         {
             if (includeProperties)
             {
-                return _db.Researches
+                var result = await _db.Researches
                     .Include(x => x.Creator)
                     .Include(x => x.Executor)
                     .Include(x => x.Algorithm)
                     .Include(x => x.DataSet)
                     .FirstOrDefaultAsync(x => x.Id == id);
+
+                // TODO: fix!
+                result.DataSet.Files = await GetAttachmentsForDataSetAsync(result.DataSetId);
+
+                return result;
             }
 
-            return _db.Researches.FirstOrDefaultAsync(x => x.Id == id);
+            return await _db.Researches.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Research> CreateResearchAsync(ResearchInitForm model)

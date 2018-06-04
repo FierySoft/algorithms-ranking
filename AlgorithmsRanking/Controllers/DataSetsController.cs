@@ -103,7 +103,7 @@ namespace AlgorithmsRanking.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
-            if ((await _db.GetAlgorithmAsync(id)) == null)
+            if ((await _db.GetDataSetAsync(id)) == null)
             {
                 return NotFound(new ApiError("404", "Not Found", $"Набор данных #{id} не найден"));
             }

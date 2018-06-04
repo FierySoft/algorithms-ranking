@@ -22,12 +22,14 @@ export class DataSet {
     type: string;
     attributesCount: number;
     stringsCount: number;
-    files: string[];
+    files: Attachment[];
     filesCount: number;
 }
 
 export class Attachment {
     id: number;
     dataSetId: number;
-    constructor (public url: string) { }
+    url: string;
+    contentLength: number;
+    name: string;
 }
