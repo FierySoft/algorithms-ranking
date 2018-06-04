@@ -5,6 +5,7 @@ import { AceEditorModule } from 'ng2-ace-editor';
 
 import { SpinnerComponent } from './spinner.component';
 import { ErrorComponent } from './error.component';
+import { FileUploadComponent } from './file-upload.component';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { ErrorComponent } from './error.component';
     ],
     declarations: [
         SpinnerComponent,
-        ErrorComponent
+        ErrorComponent,
+        FileUploadComponent
     ],
     providers: [
 
@@ -22,7 +24,8 @@ import { ErrorComponent } from './error.component';
     exports: [
         CommonModule,
         SpinnerComponent,
-        ErrorComponent
+        ErrorComponent,
+        FileUploadComponent
     ],
     entryComponents: [
 
