@@ -24,13 +24,22 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _db.GetResearchesAsync());
+            var items = await _db.GetResearchesAsync();
+
+            return Ok(items);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _db.GetResearchAsync(id));
+            var model = await _db.GetResearchAsync(id);
+
+            if (model == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Исследование #{id} не найдено"));
+            }
+
+            return Ok(model);
         }
 
         [HttpGet("create")]
@@ -59,6 +68,11 @@ namespace AlgorithmsRanking.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]ResearchInitForm model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(ResearchInitForm)} cannot be null"));
+            }
+
             try
             {
                 model.CreatorId = 1; // TODO : заменить на реальный id!
@@ -74,7 +88,7 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
@@ -91,9 +105,15 @@ namespace AlgorithmsRanking.Controllers
         {
             var item = await _db.GetResearchAsync(id);
 
+            if (item == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Исследование #{id} не найдено"));
+            }
+
             var model = new ResearchForm
             {
                 Id = item.Id,
+                Research = item,
                 Init = new ResearchInitForm
                 {
                     Name = item.Name,
@@ -125,6 +145,16 @@ namespace AlgorithmsRanking.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]ResearchInitForm model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(ResearchInitForm)} cannot be null"));
+            }
+
+            if ((await _db.GetResearchAsync(id)) == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Исследование #{id} не найдено"));
+            }
+
             try
             {
                 var result = await _db.UpdateResearchAsync(id, model);
@@ -138,13 +168,18 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
+            if ((await _db.GetResearchAsync(id)) == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Исследование #{id} не найдено"));
+            }
+
             try
             {
                 await _db.RemoveResearchAsync(id);
@@ -153,7 +188,7 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
@@ -166,20 +201,25 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
         [HttpPost("{id:int}/execute")]
         public async Task<IActionResult> Execute([FromRoute]int id, [FromBody]ResearchCalculatedForm rates)
         {
+            if (rates == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"Не заданы вычисленные параметры"));
+            }
+
             try
             {
                 return Ok(await _db.ExecuteResearchAsync(id, rates));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
@@ -192,7 +232,7 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
@@ -205,7 +245,7 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
     }
