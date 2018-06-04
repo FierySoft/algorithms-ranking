@@ -3,11 +3,14 @@
 <div *ngIf="value">
     <h3>
         Исследование '{{ value.init.name }}'
+        <small *ngIf="value.research.status !== null">
+            <research-status [code]="value.research.status" [showLabel]="true"></research-status>
+        </small>
         <div class="pull-right">
             <button (click)="start()" *ngIf="canStart" class="btn btn-primary">Начать</button>
             <button (click)="execute()" *ngIf="canExecute" class="btn btn-primary">Выполнить</button>
-            <button (click)="decline()" *ngIf="canDecline" class="btn btn-primary">Отклонить</button>
-            <button (click)="close()" *ngIf="canClose" class="btn btn-primary">Завершить</button>
+            <button (click)="decline()" *ngIf="canDecline" class="btn btn-danger">Отклонить</button>
+            <button (click)="close()" *ngIf="canClose" class="btn btn-success">Завершить</button>
         </div>
     </h3>
 

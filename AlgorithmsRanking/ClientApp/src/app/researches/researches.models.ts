@@ -27,13 +27,9 @@ export class ResearchInitForm {
     name: string;
     description: string;
     algorithmId?: number = null;
-    algorithm: Algorithm;
     dataSetId?: number = null;
-    dataSet: DataSet;
     creatorId: number;
-    creator: Person;
     executorId?: number = null;
-    executor: Person;
 }
 
 export class ResearchCalculatedForm {
@@ -50,6 +46,7 @@ export class ResearchPermissions {
 
 export class ResearchForm {
     id: number;
+    research: Research;
     init: ResearchInitForm;
     calculated: ResearchCalculatedForm;
     algorithms: EntityListItem[];

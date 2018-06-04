@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AlgorithmsRanking.Controllers
 {
+    using AlgorithmsRanking.Models;
     using AlgorithmsRanking.Entities;
     using AlgorithmsRanking.Services;
 
@@ -23,50 +24,81 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
-            return Ok(await _db.GetPersonsListItemsAsync());
+            var items = await _db.GetPersonsListItemsAsync();
+
+            return Ok(items);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _db.GetPersonsAsync());
+            var items = await _db.GetPersonsAsync();
+
+            return Ok(items);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _db.GetPersonAsync(id));
+            var model = await _db.GetPersonAsync(id);
+
+            if (model == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Персона #{id} не найдена"));
+            }
+
+            return Ok(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]Person model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(Person)} cannot be null"));
+            }
+
             try
             {
                 return Ok(await _db.CreatePersonAsync(model));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]Person model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(Person)} cannot be null"));
+            }
+
+            if ((await _db.GetPersonAsync(id)) == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Персона #{id} не найдена"));
+            }
+
             try
             {
                 return Ok(await _db.UpdatePersonAsync(id, model));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
+            if ((await _db.GetPersonAsync(id)) == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Персона #{id} не найдена"));
+            }
+
             try
             {
                 await _db.RemovePersonAsync(id);
@@ -75,7 +107,7 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
     }

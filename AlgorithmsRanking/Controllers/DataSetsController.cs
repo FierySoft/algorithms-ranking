@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AlgorithmsRanking.Controllers
 {
+    using AlgorithmsRanking.Models;
     using AlgorithmsRanking.Entities;
     using AlgorithmsRanking.Services;
 
@@ -23,50 +24,81 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
-            return Ok(await _db.GetDataSetsListItemsAsync());
+            var items = await _db.GetDataSetsListItemsAsync();
+
+            return Ok(items);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _db.GetDataSetsAsync());
+            var items = await _db.GetDataSetsAsync();
+
+            return Ok(items);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _db.GetDataSetAsync(id));
+            var model = await _db.GetDataSetAsync(id);
+
+            if (model == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Набор данных #{id} не найден"));
+            }
+
+            return Ok(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]DataSet model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(DataSet)} cannot be null"));
+            }
+
             try
             {
                 return Ok(await _db.CreateDataSetAsync(model));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]DataSet model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(DataSet)} cannot be null"));
+            }
+
+            if ((await _db.GetDataSetAsync(id)) == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Набор данных #{id} не найден"));
+            }
+
             try
             {
                 return Ok(await _db.UpdateDataSetAsync(id, model));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
+            if ((await _db.GetAlgorithmAsync(id)) == null)
+            {
+                return NotFound(new ApiError("404", "Not Found", $"Набор данных #{id} не найден"));
+            }
+
             try
             {
                 await _db.RemoveDataSetAsync(id);
@@ -75,7 +107,7 @@ namespace AlgorithmsRanking.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new ApiError(ex));
             }
         }
     }
