@@ -40,14 +40,21 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var model = await _db.GetDataSetAsync(id);
-
-            if (model == null)
+            try
             {
-                return NotFound(new ApiError("404", "Not Found", $"Набор данных #{id} не найден"));
-            }
+                var model = await _db.GetDataSetAsync(id);
 
-            return Ok(model);
+                if (model == null)
+                {
+                    return NotFound(new ApiError("404", "Not Found", $"Набор данных #{id} не найден"));
+                }
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiError(ex));
+            }
         }
 
         [HttpPost]
@@ -60,7 +67,9 @@ namespace AlgorithmsRanking.Controllers
 
             try
             {
-                return Ok(await _db.CreateDataSetAsync(model));
+                var item = await _db.CreateDataSetAsync(model);
+
+                return Ok(item);
             }
             catch (Exception ex)
             {

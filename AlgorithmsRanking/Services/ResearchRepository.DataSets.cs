@@ -19,16 +19,22 @@ namespace AlgorithmsRanking.Services
             return _db.DataSets.ToArrayAsync();
         }
 
-        public Task<DataSet> GetDataSetAsync(int id)
+        public async Task<DataSet> GetDataSetAsync(int id)
         {
-            return _db.DataSets.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _db.DataSets.FirstOrDefaultAsync(x => x.Id == id);
+
+            item.Files = (await GetAttachmentsForDataSetAsync(item.Id)).Select(x => x.Url).ToArray();
+
+            return item;
         }
 
         public async Task<DataSet> CreateDataSetAsync(DataSet model)
         {
             var create = _db.DataSets.Add(model).Entity;
-
             await _db.SaveChangesAsync();
+
+            var files = model.Files.Select(url => new Attachment(create.Id, url));
+            await CreateAttachmentsAsync(files);
 
             return create;
         }
