@@ -17,6 +17,7 @@ namespace AlgorithmsRanking.DbContexts
         public DbSet<DataSet> DataSets { get; set; }
         public DbSet<Research> Researches { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -57,6 +58,9 @@ namespace AlgorithmsRanking.DbContexts
             builder.Entity<DataSet>().Property(p => p.Type)
                 .IsRequired()
                 .HasMaxLength(25);
+
+            builder.Entity<DataSet>().Ignore(c => c.Files);
+            builder.Entity<DataSet>().Ignore(c => c.FilesCount);
 
 
             builder.Entity<Research>().Property(x => x.Name)

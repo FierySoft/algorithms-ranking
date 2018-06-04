@@ -12,9 +12,10 @@ using System;
 namespace AlgorithmsRanking.Migrations
 {
     [DbContext(typeof(ResearchRepositoryDbContext))]
-    partial class ResearchRepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180604134105_Attachments")]
+    partial class Attachments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
