@@ -7,13 +7,24 @@ import { DataSet } from './data-sets.models';
 @Component({
     template: `
         <spinner [active]="!value"></spinner>
-        <div *ngIf="value">
+        <div *ngIf="value" class="form-horizontal">
             <h3>Набор данных '{{ value.name }}'</h3>
-            <data-set-form
-                [value]="value"
-                (save)="submit($event)"
-                (cancel)="cancel()">
-            </data-set-form>
+            <div class="col-md-6">
+                <data-set-form
+                    [value]="value"
+                    (save)="submit($event)"
+                    (cancel)="cancel()">
+                </data-set-form>
+            </div>
+            <div class="col-md-offset-1 col-md-5">
+                <label class="control-label">Файлы:</label>
+                <ul class="list-group">
+                    <li *ngFor="let url of value.files; let i = index;" class="list-group-item">
+                        <a [href]="url" target="_blank"><b>file_00{{ i + 1 }}</b></a>
+                    </li>
+                </ul>
+                <div *ngIf="!value.files?.length">Файлов нет</div>
+            </div>
         </div>
     `
 })

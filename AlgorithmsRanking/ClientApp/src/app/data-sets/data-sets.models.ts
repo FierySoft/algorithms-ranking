@@ -1,1 +1,1 @@
-export { DataSet } from '../app.models';
+export { DataSet, Attachment } from '../app.models';

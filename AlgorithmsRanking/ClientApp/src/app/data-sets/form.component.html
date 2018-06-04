@@ -1,4 +1,4 @@
-<form #form="ngForm" novalidate (submit)="submit()" *ngIf="value" class="col-md-6">
+<form #form="ngForm" novalidate (submit)="submit()" *ngIf="value" class="form-horizontal">
     <div class="form-group">
         <label for="name" class="control-label">Название</label>
         <input type="text"
@@ -21,8 +21,31 @@
             class="form-control" />
         <control-messages [control]="type" class="error-message text-danger"></control-messages>
     </div>
-    
-    <div>
+    <div class="form-group">
+        <div class="col-md-6" style="padding-left:0">
+            <label for="attributesCount" class="control-label">Количество атрибутов</label>
+            <input type="number"
+                [(ngModel)]="value.attributesCount"
+                required
+                maxlength="100"
+                placeholder="Введите название"
+                name="attributesCount" ngModel #attributesCount="ngModel"
+                class="form-control" />
+            <control-messages [control]="attributesCount" class="error-message text-danger"></control-messages>
+        </div>
+        <div class="col-md-6" style="padding-right:0">
+            <label for="stringsCount" class="control-label">Количество строк</label>
+            <input type="number"
+                [(ngModel)]="value.stringsCount"
+                required
+                maxlength="25"
+                placeholder="Введите тип"
+                name="stringsCount" ngModel #stringsCount="ngModel"
+                class="form-control" />
+            <control-messages [control]="stringsCount" class="error-message text-danger"></control-messages>
+        </div>
+    </div>
+    <div class="form-group">
         <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right">Сохранить</button>
         <a (click)="cancel()" class="btn btn-default">Отмена</a>
     </div>

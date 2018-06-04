@@ -20,4 +20,14 @@ export class DataSet {
     id: number;
     name: string;
     type: string;
+    attributesCount: number;
+    stringsCount: number;
+    files: string[];
+    filesCount: number;
+}
+
+export class Attachment {
+    id: number;
+    dataSetId: number;
+    constructor (public url: string) { }
 }
