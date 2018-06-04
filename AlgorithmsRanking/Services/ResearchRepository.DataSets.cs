@@ -23,7 +23,7 @@ namespace AlgorithmsRanking.Services
         {
             var item = await _db.DataSets.FirstOrDefaultAsync(x => x.Id == id);
 
-            item.Files = (await GetAttachmentsForDataSetAsync(item.Id)).Select(x => x.Url).ToArray();
+            item.Files = await GetAttachmentsForDataSetAsync(item.Id);
 
             return item;
         }
@@ -33,7 +33,7 @@ namespace AlgorithmsRanking.Services
             var create = _db.DataSets.Add(model).Entity;
             await _db.SaveChangesAsync();
 
-            var files = model.Files.Select(url => new Attachment(create.Id, url));
+            var files = model.Files.Select(file => { file.DataSetId = create.Id; return file; });
             await CreateAttachmentsAsync(files);
 
             return create;

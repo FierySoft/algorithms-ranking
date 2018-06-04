@@ -1,38 +1,57 @@
-<div *ngIf="value">
-    <div>
-        <label>Описание</label>
-        <p>{{ value.description }}</p>
-    </div>
-    <div class="col-md-3" style="padding-left:0">
-        <label>Алгоритм</label>
-        <p>"{{ value.algorithm.name }}", Тип: "{{ value.algorithm.type }}"</p>
-    </div>
-    <div class="col-md-3">
-        <label>Набор данных</label>
-        <p>"{{ value.dataSet.name }}", Тип: "{{ value.dataSet.type }}"</p>
-    </div>
-    <div class="col-md-3">
-        <label>Руководитель:</label> {{ value.creator.shortName }}
-        <p>
-            <research-status [code]="0"></research-status> Создано
-            {{ value.createdAt | date: 'dd.MM.yyyy HH:mm' }}
-        </p>
-        <p *ngIf="value.closedAt">
-            <research-status [code]="5" [showLabel]="true"></research-status>
-            {{ value.closedAt | date: 'dd.MM.yyyy HH:mm' }}
-        </p>
-    </div>
-    <div class="col-md-3">
-        <label>Исполнитель:</label> {{ value.executor.shortName }}
-        <p *ngIf="value.startedAt">
-            <research-status [code]="2" [showLabel]="true"></research-status>
-            {{ value.startedAt | date: 'dd.MM.yyyy HH:mm' }}
-        </p>
-        <div *ngIf="value.executedAt">
-            <research-status [code]="3" [showLabel]="true"></research-status>
-            {{ value.executedAt | date: 'dd.MM.yyyy HH:mm' }}
-        </div>
-    </div>
-</div>
+<div *ngIf="value" class="panel panel-default">
+    <div class="panel-heading">
 
-<div class="clearfix"></div>
+        <div class="col-md-3" style="padding-left:0">
+            <label><i class="fa fa-list-alt"></i> Алгоритм</label>
+            <div>"{{ value.algorithm.name }}", Тип: "{{ value.algorithm.type }}"</div>
+        </div>
+
+        <div class="col-md-3">
+            <label><i class="fa fa-database"></i> Набор данных</label>
+            <div>"{{ value.dataSet.name }}", Тип: "{{ value.dataSet.type }}"</div>
+            <div>Атрибутов: {{ value.dataSet.attributesCount }}, Строк: {{ value.dataSet.stringsCount }}</div>
+        </div>
+
+        <div class="col-md-3">
+            <label><i class="fa fa-user-o"></i> Руководитель:</label> {{ value.creator.shortName }}
+            <div>
+                <research-status [code]="0"></research-status> Создано
+                {{ value.createdAt | date: 'dd.MM.yyyy HH:mm' }}
+            </div>
+            <div *ngIf="value.closedAt">
+                <research-status [code]="5" [showLabel]="true"></research-status>
+                {{ value.closedAt | date: 'dd.MM.yyyy HH:mm' }}
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <label><i class="fa fa-user-o"></i> Исполнитель:</label> {{ value.executor.shortName }}
+            <div *ngIf="value.startedAt">
+                <research-status [code]="2" [showLabel]="true"></research-status>
+                {{ value.startedAt | date: 'dd.MM.yyyy HH:mm' }}
+            </div>
+            <div *ngIf="value.executedAt">
+                <research-status [code]="3" [showLabel]="true"></research-status>
+                {{ value.executedAt | date: 'dd.MM.yyyy HH:mm' }}
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="panel-body">
+
+        <div>
+            <label>Описание</label>
+            <p>{{ value.description }}</p>
+        </div>
+
+    </div>
+
+    <div class="panel-footer">
+        <label><i class="fa fa-file"></i> Файлы:</label>
+        <span *ngFor="let file of value.dataSet.files"><a [href]="file.url">{{ file.name }}</a> | </span>
+        <span *ngIf="!value.dataSet.files?.length"><i>нет</i></span>
+    </div>
+
+</div>

@@ -1,8 +1,8 @@
 <spinner [active]="!value"></spinner>
 
 <div *ngIf="value">
-    <h3>
-        Исследование '{{ value.init.name }}'
+    <h3 style="margin-bottom:15px">
+        Исследование '{{ value.init.name }}' &nbsp;&nbsp;
         <small *ngIf="value.research.status !== null">
             <research-status [code]="value.research.status" [showLabel]="true"></research-status>
         </small>

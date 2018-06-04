@@ -1,0 +1,27 @@
+<spinner [active]="!value"></spinner>
+
+<div *ngIf="value" class="form-horizontal">
+
+    <h3>Набор данных '{{ value.name }}'</h3>
+    <div class="col-md-6">
+        <data-set-form
+            [value]="value"
+            (save)="submit($event)"
+            (cancel)="cancel()">
+        </data-set-form>
+    </div>
+
+    <div class="col-md-offset-1 col-md-5">
+        <label class="control-label">Файлы ({{ value.filesCount }}):</label>
+        <ul class="list-group">
+            <li *ngFor="let file of value.files" class="list-group-item">
+                <a [href]="file.url" target="_blank">
+                    <b>{{ file.name }}</b>
+                    ({{ file.contentLength / 1024 / 1024 | number:'1.2-2' }} Mb)
+                </a>
+            </li>
+        </ul>
+        <div *ngIf="!value.files?.length">Файлов нет</div>
+    </div>
+    
+</div>
