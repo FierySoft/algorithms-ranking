@@ -48,6 +48,7 @@ namespace AlgorithmsRanking.Controllers
             var model = new ResearchForm
             {
                 Id = 0,
+                Research = new Research(),
                 Init = new ResearchInitForm(),
                 Calculated = null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
@@ -119,13 +120,9 @@ namespace AlgorithmsRanking.Controllers
                     Name = item.Name,
                     Description = item.Description,
                     AlgorithmId = item.AlgorithmId,
-                    Algorithm = item.Algorithm,
                     DataSetId = item.DataSetId,
-                    DataSet = item.DataSet,
                     CreatorId = item.CreatorId,
-                    Creator = item.Creator,
                     ExecutorId = item.ExecutorId,
-                    Executor = item.Executor
                 },
                 Calculated = item.AccuracyRate.HasValue && item.EfficiencyRate.HasValue ?
                     new ResearchCalculatedForm
