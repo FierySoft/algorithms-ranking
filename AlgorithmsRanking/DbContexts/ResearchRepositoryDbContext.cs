@@ -13,6 +13,7 @@ namespace AlgorithmsRanking.DbContexts
 
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Algorithm> Algorithms { get; set; }
         public DbSet<DataSet> DataSets { get; set; }
         public DbSet<Research> Researches { get; set; }
@@ -42,6 +43,17 @@ namespace AlgorithmsRanking.DbContexts
                 .HasMaxLength(12);
 
             builder.Entity<Person>().HasKey(x => x.Id);
+
+
+            builder.Entity<Account>().Property(p => p.UserName)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            builder.Entity<Account>().Property(p => p.Password)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            builder.Entity<Account>().HasKey(x => x.Id);
 
 
             builder.Entity<Algorithm>().Property(x => x.Name)
