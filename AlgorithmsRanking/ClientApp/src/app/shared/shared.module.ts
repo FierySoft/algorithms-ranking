@@ -7,6 +7,7 @@ import { SpinnerComponent } from './spinner.component';
 import { ErrorComponent } from './error.component';
 import { FileUploadComponent } from './file-upload.component';
 import { FileSizePipe } from './file-size.pipe';
+import { Popover, PopoverContent } from './popover.component';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { FileSizePipe } from './file-size.pipe';
         SpinnerComponent,
         ErrorComponent,
         FileUploadComponent,
-        FileSizePipe
+        FileSizePipe,
+        Popover, PopoverContent
     ],
     providers: [
 
@@ -28,7 +30,8 @@ import { FileSizePipe } from './file-size.pipe';
         SpinnerComponent,
         ErrorComponent,
         FileUploadComponent,
-        FileSizePipe
+        FileSizePipe,
+        Popover, PopoverContent
     ],
     entryComponents: [
 
