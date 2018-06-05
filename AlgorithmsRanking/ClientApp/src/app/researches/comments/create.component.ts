@@ -12,7 +12,7 @@ import { CommentsService } from './comments.service';
                 <textarea
                     [(ngModel)]="comment"
                     required
-                    minlength="5"
+                    minlength="1"
                     maxlength="500"
                     rows="4"
                     placeholder="Введите сообщение"

@@ -18,12 +18,13 @@ import { AccountService } from '../../account/account.service';
                 </div>
             </div>
         </div>
+        <h5 *ngIf="!items?.length" class="text-center"><i>Сообщений пока нет</i></h5>
     `,
     styles: [`
         .container {
             width: 100%;
             border: 1px solid #dedede;
-            border-radius: 5px;
+            border-radius: 15px;
             padding: 10px;
             margin: 5px 0;
         }

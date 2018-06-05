@@ -20,10 +20,10 @@ import { CommentsService } from '../comments/comments.service';
     `,
     styles: [`
         .comments-layout {
-            height: 50%;
+            max-height: 50%;
         }
         .comments-list {
-            height: 500px;
+            max-height: 500px;
             overflow: auto;
             padding: 0 5px;
         }

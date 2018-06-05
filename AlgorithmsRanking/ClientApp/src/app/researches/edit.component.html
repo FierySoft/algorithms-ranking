@@ -28,11 +28,17 @@
         <research-card [id]="value.id"></research-card>
     </div>
 
-    <div *ngIf="value.calculated">
-        <h3>Расчеты</h3>
-        <form #form="ngForm" novalidate (submit)="submit()" *ngIf="value.permissions.canEditCalculated" class="row">
-            <div class="col-md-6">
-                <div class="form-group">
+    <div *ngIf="value.calculated" class="panel" style="margin-bottom:20px"
+        [class.panel-default]="value.research.status===0 || value.research.status===1"
+        [class.panel-primary]="value.research.status===2 || value.research.status===3"
+        [class.panel-danger]="value.research.status===4"
+        [class.panel-success]="value.research.status===5">
+        <div class="panel-heading">
+            <b style="font-size:20px"><research-status [code]="value.research.status"></research-status> Расчеты</b>
+        </div>
+        <div class="panel-body">
+            <form #form="ngForm" novalidate (submit)="submit()" *ngIf="value.permissions.canEditCalculated" class="row">
+                <div class="form-group col-md-offset-1 col-md-4">
                     <label for="accuracyRate" class="control-label">Показатель точности</label>
                     <input type="number"
                         [(ngModel)]="value.calculated.accuracyRate"
@@ -42,7 +48,7 @@
                         class="form-control" />
                     <control-messages [control]="accuracyRate" class="error-message text-danger"></control-messages>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-offset-2 col-md-4">
                     <label for="efficiencyRate" class="control-label">Показатель эффективности</label>
                     <input type="number"
                         [(ngModel)]="value.calculated.efficiencyRate"
@@ -52,16 +58,18 @@
                         class="form-control" />
                     <control-messages [control]="efficiencyRate" class="error-message text-danger"></control-messages>
                 </div>
-            </div>
-        </form>
-        <h4 *ngIf="!value.permissions.canEditCalculated">
-            <div>
-                <label>Показатель точности:</label> {{ value.calculated.accuracyRate || 'Не рассчитан' }}
-            </div>
-            <div>
-                <label>Показатель эффективности:</label> {{ value.calculated.efficiencyRate || 'Не рассчитан' }}
-            </div>
-        </h4>
+            </form>
+            <h4 *ngIf="!value.permissions.canEditCalculated">
+                <div class="col-md-offset-1 col-md-5">
+                    <label><i class="fa fa-dashboard"></i> Показатель точности:</label>
+                    {{ value.calculated.accuracyRate || 'Не рассчитан' }}
+                </div>
+                <div class="col-md-offset-1 col-md-5">
+                    <label><i class="fa fa-signal"></i> Показатель эффективности:</label>
+                    {{ value.calculated.efficiencyRate || 'Не рассчитан' }}
+                </div>
+            </h4>
+        </div>
     </div>
     
     <div>
