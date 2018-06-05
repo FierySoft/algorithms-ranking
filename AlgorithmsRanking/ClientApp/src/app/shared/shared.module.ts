@@ -6,6 +6,7 @@ import { AceEditorModule } from 'ng2-ace-editor';
 import { SpinnerComponent } from './spinner.component';
 import { ErrorComponent } from './error.component';
 import { FileUploadComponent } from './file-upload.component';
+import { FileSizePipe } from './file-size.pipe';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { FileUploadComponent } from './file-upload.component';
     declarations: [
         SpinnerComponent,
         ErrorComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        FileSizePipe
     ],
     providers: [
 
@@ -25,7 +27,8 @@ import { FileUploadComponent } from './file-upload.component';
         CommonModule,
         SpinnerComponent,
         ErrorComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        FileSizePipe
     ],
     entryComponents: [
 
