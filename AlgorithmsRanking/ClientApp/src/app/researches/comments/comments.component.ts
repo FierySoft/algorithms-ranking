@@ -6,12 +6,28 @@ import { CommentsService } from '../comments/comments.service';
 @Component({
     selector: 'comments',
     template: `
-        <fieldset class="col-md-6">
+        <fieldset style="padding-bottom:20px">
             <legend>Обсуждение ({{ comments ? comments.length : 0 }})</legend>
-            <comments-list [items]="comments"></comments-list>
-            <comment-create (post)="postComment($event)"></comment-create>
+            <div class="comments-layout col-md-offset-1 col-md-10">
+                <div class="comments-list">
+                    <comments-list [items]="comments"></comments-list>
+                </div>
+                <div style="margin:20px 0">
+                    <comment-create (post)="postComment($event)"></comment-create>
+                </div>
+            </div>
         </fieldset>
-    `
+    `,
+    styles: [`
+        .comments-layout {
+            max-height: 50%;
+        }
+        .comments-list {
+            max-height: 500px;
+            overflow: auto;
+            padding: 0 5px;
+        }
+    `]
 })
 export class CommentsComponent implements OnInit {
     @Input() researchId: number;

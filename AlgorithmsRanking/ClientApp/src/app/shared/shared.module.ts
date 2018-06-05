@@ -6,6 +6,10 @@ import { AceEditorModule } from 'ng2-ace-editor';
 import { SpinnerComponent } from './spinner.component';
 import { ErrorComponent } from './error.component';
 import { FileUploadComponent } from './file-upload.component';
+import { PersonCardComponent } from './person-card.component';
+import { FileSizePipe } from './file-size.pipe';
+import { Popover, PopoverContent } from './popover.component';
+import { SortableTableDirective, SortableColumnComponent, SortService } from './sortable-table.directive';
 
 @NgModule({
     imports: [
@@ -16,16 +20,24 @@ import { FileUploadComponent } from './file-upload.component';
     declarations: [
         SpinnerComponent,
         ErrorComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        PersonCardComponent,
+        FileSizePipe,
+        Popover, PopoverContent,
+        SortableTableDirective, SortableColumnComponent
     ],
     providers: [
-
+        SortService
     ],
     exports: [
         CommonModule,
         SpinnerComponent,
         ErrorComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        PersonCardComponent,
+        FileSizePipe,
+        Popover, PopoverContent,
+        SortableTableDirective, SortableColumnComponent
     ],
     entryComponents: [
 

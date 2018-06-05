@@ -5,7 +5,8 @@ import { ResearchesService } from './researches.service';
 import { ResearchForm, ResearchInitForm, ResearchCalculatedForm, ResearchStatus } from './researches.models';
 
 @Component({
-    templateUrl: 'edit.component.html'
+    templateUrl: 'edit.component.html',
+    styleUrls: [ '../validation/control-validation.css' ]
 })
 export class ResearchesEditComponent implements OnInit {
     value: ResearchForm;

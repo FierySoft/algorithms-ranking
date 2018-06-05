@@ -2,18 +2,20 @@
     <div class="panel-heading">
 
         <div class="col-md-3" style="padding-left:0">
-            <label><i class="fa fa-list-alt"></i> Алгоритм</label>
+            <label><i class="fa fa-list-alt"></i> Алгоритм:</label>
             <div>"{{ value.algorithm.name }}", Тип: "{{ value.algorithm.type }}"</div>
         </div>
 
         <div class="col-md-3">
-            <label><i class="fa fa-database"></i> Набор данных</label>
+            <label><i class="fa fa-database"></i> Набор данных:</label>
             <div>"{{ value.dataSet.name }}", Тип: "{{ value.dataSet.type }}"</div>
             <div>Атрибутов: {{ value.dataSet.attributesCount }}, Строк: {{ value.dataSet.stringsCount }}</div>
         </div>
 
         <div class="col-md-3">
-            <label><i class="fa fa-user-o"></i> Руководитель:</label> {{ value.creator.shortName }}
+            <div style="cursor:pointer; margin-bottom:5px;">
+                <person-card [value]="value.creator" label="Руководитель"></person-card>
+            </div>
             <div>
                 <research-status [code]="0"></research-status> Создано
                 {{ value.createdAt | date: 'dd.MM.yyyy HH:mm' }}
@@ -25,7 +27,9 @@
         </div>
 
         <div class="col-md-3">
-            <label><i class="fa fa-user-o"></i> Исполнитель:</label> {{ value.executor.shortName }}
+            <div style="cursor:pointer; margin-bottom:5px;">
+                <person-card [value]="value.executor" label="Исполнитель"></person-card>
+            </div>
             <div *ngIf="value.startedAt">
                 <research-status [code]="2" [showLabel]="true"></research-status>
                 {{ value.startedAt | date: 'dd.MM.yyyy HH:mm' }}
@@ -42,15 +46,19 @@
     <div class="panel-body">
 
         <div>
-            <label>Описание</label>
+            <label>Описание:</label>
             <p>{{ value.description }}</p>
         </div>
 
     </div>
 
     <div class="panel-footer">
-        <label><i class="fa fa-file"></i> Файлы:</label>
-        <span *ngFor="let file of value.dataSet.files"><a [href]="file.url">{{ file.name }}</a> | </span>
+        <label style="margin-right:15px">Файлы:</label>
+        <span *ngFor="let file of value.dataSet.files" style="margin-right:15px">
+            <a [href]="file.url" [title]="file.contentLength | fileSize">
+                <i class="fa fa-file-archive-o"></i> {{ file.name }}
+            </a>
+        </span>
         <span *ngIf="!value.dataSet.files?.length"><i>нет</i></span>
     </div>
 
