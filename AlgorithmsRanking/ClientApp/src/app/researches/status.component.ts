@@ -5,7 +5,7 @@ import { ResearchStatus } from './researches.models';
 @Component({
     selector: 'research-status',
     template: `
-        <i [attr.class]="'fa fa-' + value.icon" [style.color]="value.color"></i>
+        <i [attr.class]="'fa fa-' + value.icon" [style.color]="value.color" [title]="value.name"></i>
         <span *ngIf="showLabel">{{ value.name }}</span>
     `
 })
