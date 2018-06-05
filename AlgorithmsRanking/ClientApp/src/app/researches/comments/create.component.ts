@@ -14,7 +14,7 @@ import { CommentsService } from './comments.service';
                     required
                     minlength="5"
                     maxlength="500"
-                    rows="5"
+                    rows="4"
                     placeholder="Введите сообщение"
                     name="comment"
                     class="form-control">
