@@ -8,6 +8,7 @@ import { ErrorComponent } from './error.component';
 import { FileUploadComponent } from './file-upload.component';
 import { FileSizePipe } from './file-size.pipe';
 import { Popover, PopoverContent } from './popover.component';
+import { PersonCardComponent } from './person-card.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { Popover, PopoverContent } from './popover.component';
         ErrorComponent,
         FileUploadComponent,
         FileSizePipe,
-        Popover, PopoverContent
+        Popover, PopoverContent,
+        PersonCardComponent
     ],
     providers: [
 
@@ -31,7 +33,8 @@ import { Popover, PopoverContent } from './popover.component';
         ErrorComponent,
         FileUploadComponent,
         FileSizePipe,
-        Popover, PopoverContent
+        Popover, PopoverContent,
+        PersonCardComponent
     ],
     entryComponents: [
 

@@ -13,7 +13,9 @@
         </div>
 
         <div class="col-md-3">
-                <label><i class="fa fa-user-o"></i> Руководитель:</label> {{ value.creator.shortName }}
+            <div style="cursor:pointer; margin-bottom:5px;">
+                <person-card [value]="value.creator" label="Руководитель"></person-card>
+            </div>
             <div>
                 <research-status [code]="0"></research-status> Создано
                 {{ value.createdAt | date: 'dd.MM.yyyy HH:mm' }}
@@ -25,7 +27,9 @@
         </div>
 
         <div class="col-md-3">
-                <label><i class="fa fa-user-o"></i> Исполнитель:</label> {{ value.executor.shortName }}
+            <div style="cursor:pointer; margin-bottom:5px;">
+                <person-card [value]="value.executor" label="Исполнитель"></person-card>
+            </div>
             <div *ngIf="value.startedAt">
                 <research-status [code]="2" [showLabel]="true"></research-status>
                 {{ value.startedAt | date: 'dd.MM.yyyy HH:mm' }}
