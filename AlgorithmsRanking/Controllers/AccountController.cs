@@ -25,6 +25,7 @@ namespace AlgorithmsRanking.Controllers
         }
 
 
+        [Authorize(Policy = "ReadOnlyAccess")]
         [HttpGet("who-am-i")]
         public IActionResult WhoAmI()
         {

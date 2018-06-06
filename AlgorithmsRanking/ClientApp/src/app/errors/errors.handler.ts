@@ -25,7 +25,8 @@ export class ErrorsHandler implements ErrorHandler {
             // Unauthorized Http Error
             if (error.status === 401) {
                 const account = this.injector.get(AccountService);
-                router.navigate(['/account', 'login']);
+                account.logout(account.retrieveUserInfo().id);
+                //router.navigate(['/account', 'login']);
             }
             // Forbidden Http Error
             if (error.status === 403) {

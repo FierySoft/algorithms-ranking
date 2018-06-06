@@ -21,6 +21,7 @@ namespace AlgorithmsRanking.Controllers
         }
 
 
+        [Authorize(Policy = "ReadOnlyAccess")]
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
@@ -29,6 +30,7 @@ namespace AlgorithmsRanking.Controllers
             return Ok(items);
         }
 
+        [Authorize(Policy = "ReadOnlyAccess")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -37,6 +39,7 @@ namespace AlgorithmsRanking.Controllers
             return Ok(items);
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -50,6 +53,7 @@ namespace AlgorithmsRanking.Controllers
             return Ok(model);
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]Person model)
         {
@@ -68,6 +72,7 @@ namespace AlgorithmsRanking.Controllers
             }
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]Person model)
         {
@@ -91,6 +96,7 @@ namespace AlgorithmsRanking.Controllers
             }
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {

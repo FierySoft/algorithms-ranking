@@ -20,7 +20,7 @@ export class NavMenuComponent implements OnInit {
             this._account.whoAmI()
                 .subscribe(
                     result => this.userInfo = result,
-                    error => console.log(error)
+                    error => this._account.gotoLogin()
                 );
         }
     }
