@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { ValidationModule } from '../validation/validation.module';
+import { AccountModule } from '../account/account.module';
 
 import { AlgorithmsRoutingModule, algorithmsComponents } from './algorithms.routing';
 import { AlgorithmsService } from './algorithms.service';
@@ -10,6 +11,7 @@ import { AlgorithmsService } from './algorithms.service';
     imports: [
         SharedModule,
         ValidationModule,
+        AccountModule,
         AlgorithmsRoutingModule
     ],
     declarations: [

@@ -1,6 +1,12 @@
 <h3>
     Участники
-    <button (click)="createItem()" [disabled]="!items" class="btn btn-primary pull-right">Добавить</button>
+    <button
+        (click)="createItem()"
+        [disabled]="!items"
+        [hideIfUnauthorized]="'FULL_ACCESS'"
+        class="btn btn-primary pull-right">
+        Добавить
+    </button>
 </h3>
 
 <spinner [active]="!items"></spinner>
@@ -11,7 +17,7 @@
             <th sortable-column="lastName">Фамилия</th>
             <th sortable-column="firstName">Имя</th>
             <th>Отчество</th>
-            <th style="width:70px"></th>
+            <th style="width:70px" [hideIfUnauthorized]="'FULL_ACCESS'"></th>
         </tr>
     </thead>
     <tbody *ngIf="items">
@@ -19,7 +25,7 @@
             <td (click)="display(person)">{{ person.lastName }}</td>
             <td (click)="display(person)">{{ person.firstName }}</td>
             <td (click)="display(person)">{{ person.middleName }}</td>
-            <td>
+            <td [hideIfUnauthorized]="'FULL_ACCESS'">
                 <i (click)="selectItem(person.id)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |
                 <i (click)="deleteItem(person)" title="Удалить" class="fa fa-trash-o" style="cursor:pointer"></i>
             </td>
