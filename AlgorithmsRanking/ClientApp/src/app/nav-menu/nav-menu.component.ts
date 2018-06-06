@@ -19,9 +19,17 @@ export class NavMenuComponent implements OnInit {
         if (!this.userInfo) {
             this._account.whoAmI()
                 .subscribe(
-                    result => { this.userInfo = result; console.log(result); },
-                    error => console.log(error)
+                    result => this.userInfo = result,
+                    error => this._account.gotoLogin()
                 );
+        }
+    }
+
+    public login = (): void => this._account.gotoLogin();
+
+    public logout = (): void => {
+        if (confirm(`Вы действительно хотите выйти?`)) {
+            this._account.logout(this.userInfo.id);
         }
     }
 

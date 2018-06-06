@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard, AuthGroups } from '../account';
+
 import { PersonsComponent } from './persons.component';
 import { PersonsListComponent } from './list.component';
 import { PersonFormComponent } from './form.component';
@@ -14,8 +16,8 @@ const routes: Routes = [
         component: PersonsComponent,
         children: [
             { path: '', component: PersonsListComponent },
-            { path: 'create', component: PersonsCreateComponent },
-            { path: ':id', component: PersonsEditComponent }
+            { path: 'create', canActivate: [ AuthGuard ], data: { auth: AuthGroups.fullAccess }, component: PersonsCreateComponent },
+            { path: ':id', canActivate: [ AuthGuard ], data: { auth: AuthGroups.fullAccess }, component: PersonsEditComponent }
         ]
     },
 ];

@@ -1,4 +1,4 @@
-<div class='main-nav'>
+<div *ngIf="userInfo" class='main-nav'>
     <div class='navbar navbar-inverse'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
@@ -11,9 +11,10 @@
         </div>
         <div class='clearfix'></div>
         <div *ngIf="userInfo" style="color:lightgrey">
-            <img [attr.src]="userInfo.photoUri" width="35px" alt="User Image" class="img-circle pull-left" style="margin:5px 15px">
+            <img [attr.src]="userInfo.avatarUri" width="35px" alt="User Image" class="img-circle pull-left" style="margin:5px 15px">
             <div>Имя: {{ userInfo.userName }}</div>
-            <div>Роль: <span *ngFor="let role of userInfo.roles">{{ role }} </span></div>
+            <i (click)="logout()" class="fa fa-2x fa-sign-out pull-right" style="margin-right:20px; cursor:pointer"></i>
+            <div>Роль: {{ userInfo.role }}</div>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
@@ -23,7 +24,7 @@
                         <span class='fa fa-home'></span> Главная
                     </a>
                 </li>
-                <li [routerLinkActive]='["link-active"]'>
+                <li [routerLinkActive]='["link-active"]' [hideIfUnauthorized]="'FULL_ACCESS'">
                     <a [routerLink]='["/persons"]' (click)='collapse()'>
                         <span class='fa fa-user'></span> Участники
                     </a>

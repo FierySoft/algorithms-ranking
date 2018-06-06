@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { ValidationModule } from '../validation/validation.module';
+import { AccountModule } from '../account/account.module';
 
 import { PersonsRoutingModule, personsComponents } from './persons.routing';
 import { PersonsService } from './persons.service';
@@ -10,6 +11,7 @@ import { PersonsService } from './persons.service';
     imports: [
         SharedModule,
         ValidationModule,
+        AccountModule,
         PersonsRoutingModule
     ],
     declarations: [

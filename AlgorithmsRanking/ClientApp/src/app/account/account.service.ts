@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { UserInfo, UserCredentials } from './account.models';
+import { UserInfo, UserCredentials, AuthGroups } from './account.models';
 
 @Injectable()
 export class AccountService {
@@ -26,6 +26,16 @@ export class AccountService {
                 return userInfo;
             })
 
+    public login(cred: UserCredentials): Observable<UserInfo> {
+        return this._http.post<UserInfo>(`${this._url}/login`, cred);
+    }
+
+    public logout(id: number): void {
+        this.removeUserInfo();
+        this._http.post(`${this._url}/logout`, { accountId: id })
+            .subscribe(_ => window.location.href = '/');
+    }
+
 
     public storeUserInfo(value: UserInfo) {
         this._storage.setItem('userInfo', JSON.stringify(value));
@@ -35,6 +45,11 @@ export class AccountService {
         return JSON.parse(this._storage.getItem('userInfo')) as UserInfo;
     }
 
+    public getPermissions(): string[] {
+        const user = this.retrieveUserInfo();
+        return user ? AuthGroups.byRole(user.role) : [];
+    }
+
     public removeUserInfo(): void {
         this._storage.removeItem('userInfo');
     }
@@ -42,5 +57,9 @@ export class AccountService {
 
     public gotoHome(): void {
         this._router.navigate(['home']);
+    }
+
+    public gotoLogin(): void {
+        this._router.navigate(['account', 'login']);
     }
 }

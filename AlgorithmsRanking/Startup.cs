@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlgorithmsRanking
 {
@@ -22,14 +24,27 @@ namespace AlgorithmsRanking
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddAuthentication(DevelopmentAuthentication.DevelopmentAuthenticationDefaults.AuthenticationScheme)
-                .AddDevelopment(new DevelopmentUser
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    Username = "developer",
-                    Password = "zxasqw12",
-                    Roles = new string[] { "Developer" },
-                    Subject = "S-0-0-00-0000000000-0000000000-0000000000-0000"
+                    options.Events.OnRedirectToLogin = (context) =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+
+                    options.Events.OnRedirectToAccessDenied = (context) =>
+                    {
+                        context.Response.StatusCode = 403;
+                        return Task.CompletedTask;
+                    };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("FullAccess", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ReadOnlyAccess", policy => policy.RequireAssertion(context => context.User.IsInRole("User") || context.User.IsInRole("Admin")));
+            });
 
             services.AddMvc();
 
