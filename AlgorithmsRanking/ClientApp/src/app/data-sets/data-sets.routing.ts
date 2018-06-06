@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard, AuthGroups } from '../account';
+
 import { DataSetsComponent } from './data-sets.component';
 import { DataSetsListComponent } from './list.component';
 import { DataSetFormComponent } from './form.component';
@@ -14,8 +16,8 @@ const routes: Routes = [
         component: DataSetsComponent,
         children: [
             { path: '', component: DataSetsListComponent },
-            { path: 'create', component: DataSetsCreateComponent },
-            { path: ':id', component: DataSetsEditComponent }
+            { path: 'create', canActivate: [ AuthGuard ], data: { auth: AuthGroups.fullAccess }, component: DataSetsCreateComponent },
+            { path: ':id', canActivate: [ AuthGuard ], data: { auth: AuthGroups.fullAccess }, component: DataSetsEditComponent }
         ]
     },
 ];
