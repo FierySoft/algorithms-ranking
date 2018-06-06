@@ -1,8 +1,8 @@
 export class UserInfo {
     userName: string;
     displayName: string;
-    photoUri: string;
-    roles: string[];
+    avatarUri: string;
+    role: string;
 }
 
 export class UserCredentials {

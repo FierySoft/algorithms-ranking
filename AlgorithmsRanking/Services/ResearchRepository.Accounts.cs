@@ -14,7 +14,16 @@ namespace AlgorithmsRanking.Services
 
         public Task<Account> GetAccountAsync(int id)
         {
-            return _db.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            return _db.Accounts
+                .Include(x => x.Person)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public Task<Account> GetAccountAsync(string userName)
+        {
+            return _db.Accounts
+                .Include(x => x.Person)
+                .FirstOrDefaultAsync(x => x.UserName == userName);
         }
 
         public async Task<Account> CreateAccountAsync(Account model)

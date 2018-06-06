@@ -11,9 +11,9 @@
         </div>
         <div class='clearfix'></div>
         <div *ngIf="userInfo" style="color:lightgrey">
-            <img [attr.src]="userInfo.photoUri" width="35px" alt="User Image" class="img-circle pull-left" style="margin:5px 15px">
+            <img [attr.src]="userInfo.avatarUri" width="35px" alt="User Image" class="img-circle pull-left" style="margin:5px 15px">
             <div>Имя: {{ userInfo.userName }}</div>
-            <div>Роль: <span *ngFor="let role of userInfo.roles">{{ role }} </span></div>
+            <div>Роль: {{ userInfo.role }}</div>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
