@@ -40,6 +40,12 @@ namespace AlgorithmsRanking
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("FullAccess", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ReadOnlyAccess", policy => policy.RequireAssertion(context => context.User.IsInRole("User") || context.User.IsInRole("Admin")));
+            });
+
             services.AddMvc();
 
             services.AddDbContext<DbContexts.ResearchRepositoryDbContext>(options =>
