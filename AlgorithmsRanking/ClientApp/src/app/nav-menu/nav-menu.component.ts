@@ -25,6 +25,14 @@ export class NavMenuComponent implements OnInit {
         }
     }
 
+    public login = (): void => this._account.gotoLogin();
+
+    public logout = (): void => {
+        if (confirm(`Вы действительно хотите выйти?`)) {
+            this._account.logout(this.userInfo.id);
+        }
+    }
+
     collapse() {
         this.isExpanded = false;
     }

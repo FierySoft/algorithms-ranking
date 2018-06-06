@@ -28,19 +28,26 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet("who-am-i")]
         public IActionResult WhoAmI()
         {
-            return new JsonResult(new UserInfo
+            try
             {
-                Id = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value),
-                UserName = User?.Identity?.Name,
-                Role = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value,
-                AvatarUri = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Uri)?.Value,
-                PersonId = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value),
-                LastName = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value?.Split(" ")?[0],
-                FirstName = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value?.Split(" ")?[1],
-                MiddleName = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value?.Split(" ")?[2],
-                Email = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value,
-                Phone = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone)?.Value
-            });
+                var user = new UserInfo
+                {
+                    Id = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid)?.Value),
+                    PersonId = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value),
+                    UserName = User?.Identity?.Name,
+                    DisplayName = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value,
+                    Role = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value,
+                    AvatarUri = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Uri)?.Value,
+                    Email = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value,
+                    Phone = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone)?.Value
+                };
+
+                return new JsonResult(user);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new ApiError(ex));
+            }
         }
 
         [AllowAnonymous]
@@ -78,7 +85,7 @@ namespace AlgorithmsRanking.Controllers
             if (person != null)
             {
                 claims.Add(new Claim(ClaimTypes.PrimarySid, person.Id.ToString()));
-                claims.Add(new Claim(ClaimTypes.GivenName, person.FullName));
+                claims.Add(new Claim(ClaimTypes.GivenName, person.ShortName));
                 claims.Add(new Claim(ClaimTypes.Email, person.Email));
                 claims.Add(new Claim(ClaimTypes.MobilePhone, person.Phone));
             }
@@ -99,11 +106,11 @@ namespace AlgorithmsRanking.Controllers
                 return BadRequest(new ApiError("403", "Не удалось авторизоваться", ex.Message));
             }
 
-            return WhoAmI();
+            return Ok();
         }
 
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout([FromBody]string accountId)
+        public async Task<IActionResult> Logout([FromBody]int accountId)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
