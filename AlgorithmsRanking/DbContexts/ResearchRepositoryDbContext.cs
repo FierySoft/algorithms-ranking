@@ -23,6 +23,17 @@ namespace AlgorithmsRanking.DbContexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Account>().Property(p => p.UserName)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            builder.Entity<Account>().Property(p => p.Password)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            builder.Entity<Account>().HasKey(x => x.Id);
+            
+            
             builder.Entity<Person>().Property(p => p.LastName)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -43,17 +54,6 @@ namespace AlgorithmsRanking.DbContexts
                 .HasMaxLength(12);
 
             builder.Entity<Person>().HasKey(x => x.Id);
-
-
-            builder.Entity<Account>().Property(p => p.UserName)
-                .IsRequired()
-                .HasMaxLength(25);
-
-            builder.Entity<Account>().Property(p => p.Password)
-                .IsRequired()
-                .HasMaxLength(25);
-
-            builder.Entity<Account>().HasKey(x => x.Id);
 
 
             builder.Entity<Algorithm>().Property(x => x.Name)
