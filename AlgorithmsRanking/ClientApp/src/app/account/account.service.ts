@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { UserInfo, UserCredentials } from './account.models';
+import { UserInfo, UserCredentials, AuthGroups } from './account.models';
 
 @Injectable()
 export class AccountService {
@@ -43,6 +43,11 @@ export class AccountService {
 
     public retrieveUserInfo(): UserInfo {
         return JSON.parse(this._storage.getItem('userInfo')) as UserInfo;
+    }
+
+    public getPermissions(): string[] {
+        const user = this.retrieveUserInfo();
+        return user ? AuthGroups.byRole(user.role) : [];
     }
 
     public removeUserInfo(): void {
