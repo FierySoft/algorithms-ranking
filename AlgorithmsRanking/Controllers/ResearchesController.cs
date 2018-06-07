@@ -103,7 +103,7 @@ namespace AlgorithmsRanking.Controllers
             var research = await _db.GetResearchAsync(id);
             var personId = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value);
 
-            return Ok(permissions.Get(research, personId, User?.IsInRole("Admin") ?? false));
+            return Ok(permissions.Get(research, personId));
         }
 
         [HttpGet("{id:int}/edit")]
@@ -117,7 +117,7 @@ namespace AlgorithmsRanking.Controllers
             }
 
             var personId = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value);
-            var permissions = permissionsService.Get(item, personId, User?.IsInRole("Admin") ?? false);
+            var permissions = permissionsService.Get(item, personId);
 
             if (!permissions.CanRead)
             {

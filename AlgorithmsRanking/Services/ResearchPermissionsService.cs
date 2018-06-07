@@ -5,22 +5,22 @@ namespace AlgorithmsRanking.Services
 {
     public class ResearchPermissionsService
     {
-        public ResearchPermissions Get(Research research, int userId, bool isAdmin)
+        public ResearchPermissions Get(Research research, int userId)
         {
             return new ResearchPermissions
             {
-                CanRead = GetCanRead(research, userId, isAdmin),
+                CanRead = GetCanRead(research, userId),
                 CanEditInit = research.Status == ResearchStatus.OPENED && userId == research.CreatorId,
                 CanEditCalculated = research.Status == ResearchStatus.IN_PROGRESS && userId == research.ExecutorId,
-                CanPostComment = GetCanPostComment(research.Status, isAdmin),
+                CanPostComment = GetCanPostComment(research, userId),
                 StatusChangeOptions = GetChangeStatusOptions(research, userId)
             };
         }
 
 
-        private bool GetCanRead(Research research, int userId, bool isAdmin = false)
+        private bool GetCanRead(Research research, int userId)
         {
-            if (userId == research.CreatorId || isAdmin)
+            if (userId == research.CreatorId)
             {
                 return true;
             }
@@ -33,18 +33,21 @@ namespace AlgorithmsRanking.Services
             return research.Status > ResearchStatus.OPENED;
         }
 
-        private bool GetCanPostComment(ResearchStatus status, bool isAdmin)
+        private bool GetCanPostComment(Research research, int userId)
         {
-            if (isAdmin)
+            if (userId == research.CreatorId)
             {
-                return ResearchStatus.ASSIGNED.Equals(status)
-                    || ResearchStatus.IN_PROGRESS.Equals(status)
-                    || ResearchStatus.EXECUTED.Equals(status);
+                return ResearchStatus.ASSIGNED.Equals(research.Status)
+                    || ResearchStatus.IN_PROGRESS.Equals(research.Status)
+                    || ResearchStatus.EXECUTED.Equals(research.Status);
             }
-            else
+
+            if (userId == research.ExecutorId)
             {
-                return ResearchStatus.IN_PROGRESS.Equals(status);
+                return ResearchStatus.IN_PROGRESS.Equals(research.Status);
             }
+
+            return false;
         }
 
         private ResearchStatus[] GetChangeStatusOptions(Research research, int userId)
