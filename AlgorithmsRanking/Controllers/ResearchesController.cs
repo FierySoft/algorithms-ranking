@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -42,6 +44,7 @@ namespace AlgorithmsRanking.Controllers
             return Ok(model);
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
@@ -66,6 +69,7 @@ namespace AlgorithmsRanking.Controllers
             return Ok(model);
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]ResearchInitForm model)
         {
@@ -97,8 +101,9 @@ namespace AlgorithmsRanking.Controllers
         public async Task<IActionResult> Permissions([FromRoute]int id, [FromServices]ResearchPermissionsService permissions)
         {
             var research = await _db.GetResearchAsync(id);
+            var personId = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value);
 
-            return Ok(permissions.Get(research));
+            return Ok(permissions.Get(research, personId, User?.IsInRole("Admin") ?? false));
         }
 
         [HttpGet("{id:int}/edit")]
@@ -109,6 +114,14 @@ namespace AlgorithmsRanking.Controllers
             if (item == null)
             {
                 return NotFound(new ApiError("404", "Not Found", $"Исследование #{id} не найдено"));
+            }
+
+            var personId = Int32.Parse(User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value);
+            var permissions = permissionsService.Get(item, personId, User?.IsInRole("Admin") ?? false);
+
+            if (!permissions.CanRead)
+            {
+                return Forbid();
             }
 
             var model = new ResearchForm
@@ -133,7 +146,7 @@ namespace AlgorithmsRanking.Controllers
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),
                 Executors = await _db.GetPersonsListItemsAsync(),
-                Permissions = permissionsService.Get(item)
+                Permissions = permissions
             };
 
             return Ok(model);
@@ -169,6 +182,7 @@ namespace AlgorithmsRanking.Controllers
             }
         }
 
+        [Authorize(Policy = "FullAccess")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
