@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 namespace AlgorithmsRanking.Controllers
 {
     using AlgorithmsRanking.Models;
+    using AlgorithmsRanking.Entities;
     using AlgorithmsRanking.Services;
 
     [Authorize]
@@ -18,10 +20,12 @@ namespace AlgorithmsRanking.Controllers
     public class AccountController : Controller
     {
         private readonly ResearchRepository _db;
+        private readonly HttpContext _httpContext;
 
-        public AccountController(ResearchRepository repository)
+        public AccountController(ResearchRepository repository, IHttpContextAccessor contextAccessor)
         {
             _db = repository;
+            _httpContext = contextAccessor.HttpContext;
         }
 
 
@@ -100,6 +104,16 @@ namespace AlgorithmsRanking.Controllers
             try
             {
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+
+                var loginActivity = new AccountActivity
+                {
+                    AccountId = account.Id,
+                    IpAddress = _httpContext.Connection.RemoteIpAddress.ToString(),
+                    Operation = "Вход в систему",
+                    At = DateTime.Now
+                };
+
+                await _db.CreateAccountActivityAsync(loginActivity);
             }
             catch (Exception ex)
             {
@@ -110,11 +124,26 @@ namespace AlgorithmsRanking.Controllers
         }
 
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout([FromBody]int accountId)
+        public async Task<IActionResult> Logout([FromBody]LogoutForm logout)
         {
+            var logoutActivity = new AccountActivity
+            {
+                AccountId = logout.AccountId,
+                IpAddress = _httpContext.Connection.RemoteIpAddress.ToString(),
+                Operation = "Выход из системы",
+                At = DateTime.Now
+            };
+
+            await _db.CreateAccountActivityAsync(logoutActivity);
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Ok(new { loggedOut = true });
+        }
+
+        public class LogoutForm
+        {
+            public int AccountId { get; set; }
         }
     }
 }
