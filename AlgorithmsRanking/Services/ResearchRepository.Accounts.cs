@@ -9,7 +9,9 @@ namespace AlgorithmsRanking.Services
     {
         public Task<Account[]> GetAccountsAsync()
         {
-            return _db.Accounts.ToArrayAsync();
+            return _db.Accounts
+                .Include(x => x.Person)
+                .ToArrayAsync();
         }
 
         public Task<Account> GetAccountAsync(int id)
@@ -26,12 +28,23 @@ namespace AlgorithmsRanking.Services
                 .FirstOrDefaultAsync(x => x.UserName == userName);
         }
 
+        public Task<Account> GetAccountByPersonIdAsync(int personId)
+        {
+            return _db.Accounts
+                .Include(x => x.Person)
+                .FirstOrDefaultAsync(x => x.PersonId == personId);
+        }
+
         public async Task<Account> CreateAccountAsync(Account model)
         {
             model.RegisteredAt = DateTime.Now;
+            var person = _db.Persons.Add(model.Person).Entity;
             var create = _db.Accounts.Add(model).Entity;
 
             await _db.SaveChangesAsync();
+
+            create.PersonId = person.Id;
+            create.Person = person;
 
             return create;
         }
@@ -39,6 +52,8 @@ namespace AlgorithmsRanking.Services
         public async Task<Account> UpdateAccountAsync(int id, Account model)
         {
             var update = await GetAccountAsync(id);
+
+            await UpdatePersonAsync(model.PersonId, model.Person);
             
             update.Password = model.Password;
             update.Role = model.Role;
@@ -56,6 +71,8 @@ namespace AlgorithmsRanking.Services
 
             _db.Accounts.Remove(remove);
             await _db.SaveChangesAsync();
+
+            await RemovePersonAsync(remove.PersonId);
         }
     }
 }

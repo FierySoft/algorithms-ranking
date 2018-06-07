@@ -38,10 +38,11 @@ export class ResearchCalculatedForm {
 }
 
 export class ResearchPermissions {
-    statusChangeOptions: number[];
+    canRead: boolean;
     canEditInit: boolean;
     canEditCalculated: boolean;
     canPostComment: boolean;
+    statusChangeOptions: number[];
 }
 
 export class ResearchForm {

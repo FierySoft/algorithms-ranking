@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { PersonsService } from './persons.service';
-import { Person } from './persons.models';
+import { Person, Account } from './persons.models';
 
 @Component({
     template: `
         <spinner [active]="!value"></spinner>
         <div *ngIf="value">
-            <h3>Участник '{{ value.lastName }}'</h3>
+            <h3>Участник '{{ value.person.lastName }}'</h3>
             <person-form
                 [value]="value"
                 (save)="submit($event)"
@@ -18,7 +18,7 @@ import { Person } from './persons.models';
     `
 })
 export class PersonsEditComponent implements OnInit {
-    value: Person;
+    value: Account;
 
     constructor(
         private _persons: PersonsService,
@@ -35,11 +35,11 @@ export class PersonsEditComponent implements OnInit {
             );
     }
 
-    public submit(value: Person) {
+    public submit(value: Account) {
         if (!value) { return; }
 
         this.value = value;
-        this._persons.putPerson(this.value.id, this.value)
+        this._persons.putPerson(this.value.personId, this.value)
             .subscribe(
                 result => this._persons.gotoList(),
                 error => console.log(error)

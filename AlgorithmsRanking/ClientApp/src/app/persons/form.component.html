@@ -4,7 +4,7 @@
         <div class="form-group col-md-4">
             <label for="lastName" class="control-label">Фамилия</label>
             <input type="text"
-                [(ngModel)]="value.lastName"
+                [(ngModel)]="value.person.lastName"
                 required
                 validatePersonName
                 maxlength="20"
@@ -17,7 +17,7 @@
         <div class="form-group col-md-4">
             <label for="firstName" class="control-label">Имя</label>
             <input type="text"
-                [(ngModel)]="value.firstName"
+                [(ngModel)]="value.person.firstName"
                 required
                 validatePersonName
                 maxlength="20"
@@ -30,7 +30,7 @@
         <div class="form-group col-md-4">
             <label for="middleName" class="control-label">Отчество</label>
             <input type="text"
-                [(ngModel)]="value.middleName"
+                [(ngModel)]="value.person.middleName"
                 validatePersonName
                 maxlength="20"
                 placeholder="Введите отчество"
@@ -42,9 +42,50 @@
 
     <div class="row">
         <div class="form-group col-md-4">
+            <label for="userName" class="control-label">Имя пользователя</label>
+            <input type="text"
+                [(ngModel)]="value.userName"
+                required
+                maxlength="50"
+                placeholder="Введите имя пользователя"
+                name="userName" ngModel #userName="ngModel"
+                class="form-control" />
+            <control-messages [control]="userName" class="error-message text-danger"></control-messages>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="password" class="control-label">Пароль</label>
+            <input type="text"
+                [(ngModel)]="value.password"
+                required
+                minlength="8"
+                maxlength="30"
+                placeholder="Введите пароль"
+                name="password" ngModel #password="ngModel"
+                class="form-control" />
+            <control-messages [control]="password" class="error-message text-danger"></control-messages>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="role" class="control-label"> Роль</label>
+            <select
+                [(ngModel)]="value.role"
+                required
+                name="role" ngModel #role="ngModel"
+                class="form-control">
+                <option disabled selected [ngValue]="null">Выберите роль</option>
+                <option>Admin</option>
+                <option>User</option>
+            </select>
+            <control-messages [control]="role" class="error-message text-danger"></control-messages>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
             <label for="email" class="control-label">Email</label>
             <input type="text"
-                [(ngModel)]="value.email"
+                [(ngModel)]="value.person.email"
                 required
                 maxlength="50"
                 placeholder="Введите email"
@@ -56,7 +97,7 @@
         <div class="form-group col-md-4">
             <label for="phone" class="control-label">Телефон</label>
             <input type="text"
-                [(ngModel)]="value.phone"
+                [(ngModel)]="value.person.phone"
                 required
                 maxlength="12"
                 placeholder="+7----------"

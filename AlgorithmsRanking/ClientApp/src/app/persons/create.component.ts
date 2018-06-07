@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { PersonsService } from './persons.service';
-import { Person } from './persons.models';
+import { Person, Account } from './persons.models';
 
 @Component({
     template: `
@@ -14,13 +14,14 @@ import { Person } from './persons.models';
     `
 })
 export class PersonsCreateComponent {
-    value: Person;
+    value: Account;
 
     constructor(private _persons: PersonsService) {
-        this.value = new Person();
+        this.value = new Account();
+        this.value.person = new Person();
     }
 
-    public submit(value: Person) {
+    public submit(value: Account) {
         if (!value) { return; }
 
         this.value = value;

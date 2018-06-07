@@ -61,7 +61,6 @@ namespace AlgorithmsRanking.Controllers
             }
 
             var account = await _db.GetAccountAsync(cred.UserName);
-            var person = await _db.GetPersonAsync(account.PersonId);
 
             if (account == null)
             {
@@ -83,12 +82,12 @@ namespace AlgorithmsRanking.Controllers
                 new Claim(ClaimTypes.Uri, account.AvatarUri)
             };
 
-            if (person != null)
+            if (account.Person != null)
             {
-                claims.Add(new Claim(ClaimTypes.PrimarySid, person.Id.ToString()));
-                claims.Add(new Claim(ClaimTypes.GivenName, person.ShortName));
-                claims.Add(new Claim(ClaimTypes.Email, person.Email));
-                claims.Add(new Claim(ClaimTypes.MobilePhone, person.Phone));
+                claims.Add(new Claim(ClaimTypes.PrimarySid, account.Person.Id.ToString()));
+                claims.Add(new Claim(ClaimTypes.GivenName, account.Person.ShortName));
+                claims.Add(new Claim(ClaimTypes.Email, account.Person.Email));
+                claims.Add(new Claim(ClaimTypes.MobilePhone, account.Person.Phone));
             }
 
             var id = new ClaimsIdentity(
