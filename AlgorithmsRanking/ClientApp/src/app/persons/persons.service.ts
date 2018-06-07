@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Person } from './persons.models';
+import { Person, Account } from './persons.models';
 
 @Injectable()
 export class PersonsService {
@@ -18,17 +18,17 @@ export class PersonsService {
     }
 
 
-    public getPersons = (): Observable<Person[]> =>
-        this._http.get<Person[]>(this._url)
+    public getPersons = (): Observable<Account[]> =>
+        this._http.get<Account[]>(this._url)
 
-    public getPerson = (id: number): Observable<Person> =>
-        this._http.get<Person>(`${this._url}/${id}`)
+    public getPerson = (id: number): Observable<Account> =>
+        this._http.get<Account>(`${this._url}/${id}`)
 
-    public postPerson = (value: Person): Observable<Person> =>
-        this._http.post<Person>(`${this._url}`, value)
+    public postPerson = (value: Account): Observable<Account> =>
+        this._http.post<Account>(`${this._url}`, value)
 
-    public putPerson = (id: number, value: Person): Observable<Person> =>
-        this._http.put<Person>(`${this._url}/${id}`, value)
+    public putPerson = (id: number, value: Account): Observable<Account> =>
+        this._http.put<Account>(`${this._url}/${id}`, value)
 
     public deletePerson = (id: number): any =>
         this._http.delete<any>(`${this._url}/${id}`)

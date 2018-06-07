@@ -17,17 +17,23 @@
             <th sortable-column="lastName">Фамилия</th>
             <th sortable-column="firstName">Имя</th>
             <th>Отчество</th>
+            <th>Аккаунт</th>
+            <th>Роль</th>
+            <th>Зарегестрирован</th>
             <th style="width:70px" [hideIfUnauthorized]="'FULL_ACCESS'"></th>
         </tr>
     </thead>
     <tbody *ngIf="items">
-        <tr *ngFor="let person of items">
-            <td (click)="display(person)">{{ person.lastName }}</td>
-            <td (click)="display(person)">{{ person.firstName }}</td>
-            <td (click)="display(person)">{{ person.middleName }}</td>
+        <tr *ngFor="let acc of items">
+            <td (click)="display(acc)">{{ acc.person.lastName }}</td>
+            <td (click)="display(acc)">{{ acc.person.firstName }}</td>
+            <td (click)="display(acc)">{{ acc.person.middleName }}</td>
+            <td (click)="display(acc)">{{ acc.userName }}</td>
+            <td (click)="display(acc)">{{ acc.role }}</td>
+            <td (click)="display(acc)">{{ acc.registeredAt | date: 'dd.MM.yyyy' }}</td>
             <td [hideIfUnauthorized]="'FULL_ACCESS'">
-                <i (click)="selectItem(person.id)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |
-                <i (click)="deleteItem(person)" title="Удалить" class="fa fa-trash-o" style="cursor:pointer"></i>
+                <i (click)="selectItem(acc.personId)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |
+                <i (click)="deleteItem(acc)" title="Удалить" class="fa fa-trash-o" style="cursor:pointer"></i>
             </td>
         </tr>
     </tbody>

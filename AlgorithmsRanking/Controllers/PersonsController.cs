@@ -34,20 +34,20 @@ namespace AlgorithmsRanking.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var items = await _db.GetPersonsAsync();
+            var items = await _db.GetAccountsAsync();
 
             return Ok(items);
         }
 
         [Authorize(Policy = "FullAccess")]
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{personId:int}")]
+        public async Task<IActionResult> Get(int personId)
         {
-            var model = await _db.GetPersonAsync(id);
+            var model = await _db.GetAccountByPersonIdAsync(personId);
 
             if (model == null)
             {
-                return NotFound(new ApiError("404", "Not Found", $"Персона #{id} не найдена"));
+                return NotFound(new ApiError("404", "Not Found", $"Учетная запись для участника #{personId} не найдена"));
             }
 
             return Ok(model);
@@ -55,16 +55,19 @@ namespace AlgorithmsRanking.Controllers
 
         [Authorize(Policy = "FullAccess")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]Person model)
+        public async Task<IActionResult> Create([FromBody]Account model)
         {
             if (model == null)
             {
-                return BadRequest(new ApiError("400", "Null model", $"{typeof(Person)} cannot be null"));
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(Account)} cannot be null"));
             }
 
             try
             {
-                return Ok(await _db.CreatePersonAsync(model));
+                // TODO: add photo upload!
+                model.AvatarUri = "/images/dev-user.jpg";
+
+                return Ok(await _db.CreateAccountAsync(model));
             }
             catch (Exception ex)
             {
@@ -73,22 +76,22 @@ namespace AlgorithmsRanking.Controllers
         }
 
         [Authorize(Policy = "FullAccess")]
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]Person model)
+        [HttpPut("{personId:int}")]
+        public async Task<IActionResult> Edit([FromRoute]int personId, [FromBody]Account model)
         {
             if (model == null)
             {
-                return BadRequest(new ApiError("400", "Null model", $"{typeof(Person)} cannot be null"));
+                return BadRequest(new ApiError("400", "Null model", $"{typeof(Account)} cannot be null"));
             }
 
-            if ((await _db.GetPersonAsync(id)) == null)
+            if ((await _db.GetAccountByPersonIdAsync(personId)) == null)
             {
-                return NotFound(new ApiError("404", "Not Found", $"Персона #{id} не найдена"));
+                return NotFound(new ApiError("404", "Not Found", $"Учетная запись для участника #{personId} не найдена"));
             }
 
             try
             {
-                return Ok(await _db.UpdatePersonAsync(id, model));
+                return Ok(await _db.UpdateAccountAsync(model.Id, model));
             }
             catch (Exception ex)
             {
@@ -97,17 +100,19 @@ namespace AlgorithmsRanking.Controllers
         }
 
         [Authorize(Policy = "FullAccess")]
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute]int id)
+        [HttpDelete("{personId:int}")]
+        public async Task<IActionResult> Delete([FromRoute]int personId)
         {
-            if ((await _db.GetPersonAsync(id)) == null)
+            var model = await _db.GetAccountByPersonIdAsync(personId);
+
+            if (model == null)
             {
-                return NotFound(new ApiError("404", "Not Found", $"Персона #{id} не найдена"));
+                return NotFound(new ApiError("404", "Not Found", $"Учетная запись для участника #{personId} не найдена"));
             }
 
             try
             {
-                await _db.RemovePersonAsync(id);
+                await _db.RemoveAccountAsync(model.Id);
 
                 return Ok(new { deleted = true });
             }

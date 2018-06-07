@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PersonsService } from './persons.service';
-import { Person } from './persons.models';
+import { Account, Person } from './persons.models';
 
 @Component({
     templateUrl: 'list.component.html'
 })
 export class PersonsListComponent implements OnInit {
-    items: Person[];
+    items: Account[];
 
     constructor(private _persons: PersonsService) { }
 
@@ -31,10 +31,10 @@ export class PersonsListComponent implements OnInit {
         const col = event.sortColumn as string;
         const dir = event.sortDirection as string;
 
-        this.items.sort((a: Person, b: Person) => {
+        this.items.sort((a: Account, b: Account) => {
             return dir === 'asc' ?
-                a[col] === b[col] ? 0 : a[col] > b[col] ? 1 : -1 :
-                a[col] === b[col] ? 0 : a[col] > b[col] ? -1 : 1;
+                a.person[col] === b.person[col] ? 0 : a.person[col] > b.person[col] ? 1 : -1 :
+                a.person[col] === b.person[col] ? 0 : a.person[col] > b.person[col] ? -1 : 1;
 
         });
     }
@@ -44,10 +44,10 @@ export class PersonsListComponent implements OnInit {
         this._persons.gotoItem(id);
     }
 
-    public deleteItem(item: Person) {
+    public deleteItem(item: Account) {
         if (!item) { return; }
-        if (confirm(`Вы действительно хотите удалить \'${item.shortName}\'?`)) {
-            this._persons.deletePerson(item.id);
+        if (confirm(`Вы действительно хотите удалить \'${item.person.shortName}\'?`)) {
+            this._persons.deletePerson(item.personId);
         }
     }
 

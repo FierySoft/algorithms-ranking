@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { PersonsService } from './persons.service';
-import { Person } from './persons.models';
+import { Person, Account } from './persons.models';
 
 @Component({
     selector: 'person-form',
@@ -9,8 +9,8 @@ import { Person } from './persons.models';
     styleUrls: [ '../validation/control-validation.css' ]
 })
 export class PersonFormComponent {
-    @Input() value: Person;
-    @Output('save') onSubmit: EventEmitter<Person> = new EventEmitter();
+    @Input() value: Account;
+    @Output('save') onSubmit: EventEmitter<Account> = new EventEmitter();
     @Output('cancel') onCancel: EventEmitter<boolean> = new EventEmitter();
 
     constructor() { }
