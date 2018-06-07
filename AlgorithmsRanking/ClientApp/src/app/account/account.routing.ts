@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AccountComponent } from './account.component';
 import { AccountLoginComponent } from './login.component';
+import { LogsListComponent } from './logs.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
         component: AccountComponent,
         children: [
             { path: 'login', component: AccountLoginComponent },
+            { path: 'logs', component: LogsListComponent },
         ]
     },
 ];
@@ -31,5 +33,6 @@ export class AccountRoutingModule {
 
 export const accountComponents = [
     AccountComponent,
-    AccountLoginComponent
+    AccountLoginComponent,
+    LogsListComponent
 ];

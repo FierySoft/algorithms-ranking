@@ -7,7 +7,7 @@ namespace AlgorithmsRanking.Controllers
     using AlgorithmsRanking.Services;
 
     [Authorize(Policy = "FullAccess")]
-    [Route("api/account-activities")]
+    [Route("api/account/activities")]
     public class AccountActivitiesController : Controller
     {
         private readonly ResearchRepository _db;

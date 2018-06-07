@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { UserInfo, UserCredentials, AuthGroups } from './account.models';
+import { UserInfo, UserCredentials, AuthGroups, AccountActivity } from './account.models';
 
 @Injectable()
 export class AccountService {
@@ -35,6 +35,9 @@ export class AccountService {
         this._http.post(`${this._url}/logout`, { accountId: id })
             .subscribe(_ => window.location.href = '/');
     }
+
+    public getActivitiesList = (id: number): Observable<AccountActivity[]> =>
+        this._http.get<AccountActivity[]>(`${this._url}/activities/${id}`)
 
 
     public storeUserInfo(value: UserInfo) {
