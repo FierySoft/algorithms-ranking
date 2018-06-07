@@ -19,7 +19,8 @@ namespace AlgorithmsRanking.DbContexts
         public DbSet<Research> Researches { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
-        
+        public DbSet<AccountActivity> AccountActivities { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -109,6 +110,17 @@ namespace AlgorithmsRanking.DbContexts
                 .IsRequired();
 
             builder.Entity<Attachment>().HasKey(x => x.Id);
+
+
+            builder.Entity<AccountActivity>().Property(x => x.Operation)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            builder.Entity<AccountActivity>().Property(x => x.IpAddress)
+                .IsRequired()
+                .HasMaxLength(15);
+
+            builder.Entity<AccountActivity>().HasKey(x => x.Id);
         }
     }
 }
