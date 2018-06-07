@@ -37,3 +37,22 @@ export class AuthGroups {
         if (role === RequiredRoles.user) { return [ this.readOnlyAccess ]; }
     }
 }
+
+export class AccountActivity {
+    id: number;
+    accountId: number;
+    account: Account;
+    ipAddress: string;
+    operation: string;
+    at: Date;
+}
+
+export class Account {
+    id: number;
+    userName: string;
+    password: string;
+    role: string = null;
+    avatarUri: string;
+    personId: number;
+    registeredAt: Date;
+}

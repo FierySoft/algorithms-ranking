@@ -29,6 +29,11 @@
                         <span class='fa fa-user'></span> Участники
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]' [hideIfUnauthorized]="'FULL_ACCESS'">
+                    <a [routerLink]='["/account/logs"]' (click)='collapse()'>
+                        <span class='fa fa-address-book-o'></span> История
+                    </a>
+                </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/algorithms"]' (click)='collapse()'>
                         <span class='fa fa-list-alt'></span> Алгоритмы
