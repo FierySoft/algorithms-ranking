@@ -12,7 +12,7 @@ import { CommentsService } from '../comments/comments.service';
                 <div class="comments-list">
                     <comments-list [items]="comments"></comments-list>
                 </div>
-                <div style="margin:20px 0">
+                <div *ngIf="showPost" style="margin:20px 0">
                     <comment-create (post)="postComment($event)"></comment-create>
                 </div>
             </div>
@@ -31,6 +31,7 @@ import { CommentsService } from '../comments/comments.service';
 })
 export class CommentsComponent implements OnInit {
     @Input() researchId: number;
+    @Input() showPost: boolean = true;
     comments: Comment[];
 
     constructor(private _comments: CommentsService) { }
