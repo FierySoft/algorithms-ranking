@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Research, ResearchForm, ResearchInitForm, ResearchCalculatedForm } from './researches.models';
+import { Research, ResearchFolders, ResearchForm, ResearchInitForm, ResearchCalculatedForm } from './researches.models';
 
 @Injectable()
 export class ResearchesService {
@@ -20,6 +20,9 @@ export class ResearchesService {
 
     public getResearches = (): Observable<Research[]> =>
         this._http.get<Research[]>(this._url)
+
+    public getResearchFolders = (): Observable<ResearchFolders> =>
+        this._http.get<ResearchFolders>(`${this._url}/folders`)
 
     public getResearch = (id: number): Observable<Research> =>
         this._http.get<Research>(`${this._url}/${id}`)
@@ -56,8 +59,8 @@ export class ResearchesService {
         this._http.get<Research>(`${this._url}/${id}/close`)
 
 
-    public gotoList(): void {
-        this._router.navigate(['researches']);
+    public gotoFolders(): void {
+        this._router.navigate(['/']);
     }
 
     public gotoItem(id: number): void {

@@ -23,6 +23,12 @@ export class Research {
     closedAt?: Date;
 }
 
+export class ResearchFolders {
+    active: Research[];
+    toConfirm: Research[];
+    archive: Research[];
+}
+
 export class ResearchInitForm {
     name: string;
     description: string;

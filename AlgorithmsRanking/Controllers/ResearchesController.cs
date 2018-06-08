@@ -31,6 +31,29 @@ namespace AlgorithmsRanking.Controllers
             return Ok(items);
         }
 
+        [HttpGet("folders")]
+        public async Task<IActionResult> Folders()
+        {
+            Research[] researches = new Research[] { };
+            var personId = Int32.Parse(User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value);
+
+            if (User != null && User.IsInRole("Admin"))
+            {
+                researches = await _db.GetResearchesForCreatorAsync(personId);
+            }
+
+            if (User != null && User.IsInRole("User"))
+            {
+                researches = await _db.GetResearchesForExecutorAsync(personId);
+            }
+
+            var active = researches.Where(x => x.Status < ResearchStatus.EXECUTED || x.Status == ResearchStatus.DECLINED).OrderBy(x => x.Status);
+            var toConfirm = researches.Where(x => x.Status == ResearchStatus.EXECUTED);
+            var archive = researches.Where(x => x.Status == ResearchStatus.CLOSED);
+
+            return Ok(new { active, toConfirm, archive });
+        }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -56,7 +79,7 @@ namespace AlgorithmsRanking.Controllers
                 Calculated = null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),
-                Executors = await _db.GetPersonsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsByRoleAsync("User"),
                 Permissions = new ResearchPermissions
                 {
                     StatusChangeOptions = new ResearchStatus[] { ResearchStatus.ASSIGNED },
@@ -145,7 +168,7 @@ namespace AlgorithmsRanking.Controllers
                     } : null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),
-                Executors = await _db.GetPersonsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsByRoleAsync("User"),
                 Permissions = permissions
             };
 

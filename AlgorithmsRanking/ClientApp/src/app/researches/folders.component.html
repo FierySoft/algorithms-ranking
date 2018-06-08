@@ -1,0 +1,48 @@
+<h3>Исследования</h3>
+
+<spinner [active]="!folders"></spinner>
+
+<div *ngIf="folders">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#active" aria-controls="active" role="tab" data-toggle="tab">
+                Активные
+                <span class="badge">{{ folders.active?.length || 0 }}</span>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#toconfirm" aria-controls="toconfirm" role="tab" data-toggle="tab">
+                Подтверждение
+                <span class="badge">{{ folders.toConfirm?.length || 0 }}</span>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#archive" aria-controls="archive" role="tab" data-toggle="tab">
+                Архив
+                <span class="badge">{{ folders.archive?.length || 0 }}</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="active">
+            <button (click)="createItem()"
+                [disabled]="!folders"
+                [hideIfUnauthorized]="'FULL_ACCESS'"
+                class="btn btn-primary pull-right">
+                Добавить
+            </button>
+            <researches-list [items]="folders.active"></researches-list>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="toconfirm">
+            <researches-list [items]="folders.toConfirm"></researches-list>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="archive">
+            <researches-list [items]="folders.archive"></researches-list>
+        </div>
+    </div>
+
+</div>

@@ -38,12 +38,12 @@ export class ResearchesCreateComponent implements OnInit {
         this.value.init = value;
         this._researches.postResearch(this.value.init)
             .subscribe(
-                result => this._researches.gotoList(),
+                result => this._researches.gotoFolders(),
                 error => console.log(error)
             );
     }
 
     public cancel() {
-        this._researches.gotoList();
+        this._researches.gotoFolders();
     }
 }

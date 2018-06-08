@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AlgorithmsRanking.Entities;
@@ -15,6 +16,28 @@ namespace AlgorithmsRanking.Services
                 .Include(x => x.Executor)
                 .Include(x => x.Algorithm)
                 .Include(x => x.DataSet)
+                .ToArrayAsync();
+        }
+
+        public Task<Research[]> GetResearchesForCreatorAsync(int creatorId)
+        {
+            return _db.Researches
+                .Include(x => x.Creator)
+                .Include(x => x.Executor)
+                .Include(x => x.Algorithm)
+                .Include(x => x.DataSet)
+                .Where(x => x.CreatorId == creatorId)
+                .ToArrayAsync();
+        }
+
+        public Task<Research[]> GetResearchesForExecutorAsync(int executorId)
+        {
+            return _db.Researches
+                .Include(x => x.Creator)
+                .Include(x => x.Executor)
+                .Include(x => x.Algorithm)
+                .Include(x => x.DataSet)
+                .Where(x => x.ExecutorId == executorId)
                 .ToArrayAsync();
         }
 
