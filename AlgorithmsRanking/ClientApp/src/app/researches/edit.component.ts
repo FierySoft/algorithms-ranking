@@ -39,7 +39,7 @@ export class ResearchesEditComponent implements OnInit {
         this.value.init = value;
         this._researches.putResearch(this.value.id, this.value.init)
             .subscribe(
-                result => this._researches.gotoList(),
+                result => this._researches.gotoFolders(),
                 error => console.log(error)
             );
     }
@@ -66,7 +66,7 @@ export class ResearchesEditComponent implements OnInit {
         if (!this.value) { return; }
         this._researches.startResearch(this.value.id)
             .subscribe(
-                result => this._researches.gotoList(),
+                result => this._researches.gotoFolders(),
                 error => console.log(error)
             );
     }
@@ -75,7 +75,7 @@ export class ResearchesEditComponent implements OnInit {
         if (!this.value.calculated) { return; }
         this._researches.executeResearch(this.value.id, this.value.calculated)
             .subscribe(
-                result => this._researches.gotoList(),
+                result => this._researches.gotoFolders(),
                 error => console.log(error)
             );
     }
@@ -84,7 +84,7 @@ export class ResearchesEditComponent implements OnInit {
         if (!this.value) { return; }
         this._researches.declineResearch(this.value.id)
             .subscribe(
-                result => this._researches.gotoList(),
+                result => this._researches.gotoFolders(),
                 error => console.log(error)
             );
     }
@@ -93,12 +93,12 @@ export class ResearchesEditComponent implements OnInit {
         if (!this.value) { return; }
         this._researches.closeResearch(this.value.id)
             .subscribe(
-                result => this._researches.gotoList(),
+                result => this._researches.gotoFolders(),
                 error => console.log(error)
             );
     }
 
     public cancel() {
-        this._researches.gotoList();
+        this._researches.gotoFolders();
     }
 }

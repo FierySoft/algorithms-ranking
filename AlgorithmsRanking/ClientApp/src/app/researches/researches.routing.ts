@@ -5,6 +5,7 @@ import { ResearchesComponent } from './researches.component';
 import { ResearchStatusComponent } from './status.component';
 import { ResearchFormComponent } from './form.component';
 import { ResearchCardComponent } from './card.component';
+import { ResearchesFoldersComponent } from './folders.component';
 import { ResearchesListComponent } from './list.component';
 import { ResearchesCreateComponent } from './create.component';
 import { ResearchesEditComponent } from './edit.component';
@@ -43,6 +44,7 @@ export const researchesComponents = [
     ResearchStatusComponent,
     ResearchFormComponent,
     ResearchCardComponent,
+    ResearchesFoldersComponent,
     ResearchesListComponent,
     ResearchesCreateComponent,
     ResearchesEditComponent,

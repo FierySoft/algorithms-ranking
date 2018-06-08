@@ -1,10 +1,3 @@
-<h3>
-    Исследования
-    <button (click)="createItem()" [disabled]="!items" class="btn btn-primary pull-right">Добавить</button>
-</h3>
-
-<spinner [active]="!items"></spinner>
-
 <table sortable-table (sorted)="onSorted($event)" class="table table-hover table-striped table-bordered">
     <thead>
         <tr>

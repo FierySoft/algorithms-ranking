@@ -19,7 +19,7 @@
             <th>Отчество</th>
             <th>Пользователь</th>
             <th>Роль</th>
-            <th>Зарегестрирован</th>
+            <th>Зарегистрирован</th>
             <th style="width:90px" [hideIfUnauthorized]="'FULL_ACCESS'"></th>
         </tr>
     </thead>
@@ -65,7 +65,7 @@
                 <a [href]="'tel:' + displayingAccount.person.phone">{{ displayingAccount.person.phone }}</a>
             </h3>
             <h3 class="form-group">
-                <label>Зарегестрирован:</label> 
+                <label>Зарегистрирован:</label> 
                 <span>{{ displayingAccount.registeredAt | date:'dd.MM.yyyy HH:mm' }}</span>
             </h3>
         </div>
