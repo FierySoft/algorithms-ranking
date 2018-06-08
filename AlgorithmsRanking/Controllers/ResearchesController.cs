@@ -56,7 +56,7 @@ namespace AlgorithmsRanking.Controllers
                 Calculated = null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),
-                Executors = await _db.GetPersonsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsByRoleAsync("User"),
                 Permissions = new ResearchPermissions
                 {
                     StatusChangeOptions = new ResearchStatus[] { ResearchStatus.ASSIGNED },
@@ -145,7 +145,7 @@ namespace AlgorithmsRanking.Controllers
                     } : null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),
-                Executors = await _db.GetPersonsListItemsAsync(),
+                Executors = await _db.GetPersonsListItemsByRoleAsync("User"),
                 Permissions = permissions
             };
 

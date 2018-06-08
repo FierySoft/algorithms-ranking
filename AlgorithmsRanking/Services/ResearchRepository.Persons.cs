@@ -15,6 +15,15 @@ namespace AlgorithmsRanking.Services
             return _db.Persons.Select(x => new EntityListItem(x.Id, x.FullName)).ToListAsync();
         }
 
+        public Task<List<EntityListItem>> GetPersonsListItemsByRoleAsync(string role)
+        {
+            return _db.Accounts
+                .Where(x => x.Role == role)
+                .Select(x => x.Person)
+                .Select(x => new EntityListItem(x.Id, x.FullName))
+                .ToListAsync();
+        }
+
         public Task<Person[]> GetPersonsAsync()
         {
             return _db.Persons.ToArrayAsync();
