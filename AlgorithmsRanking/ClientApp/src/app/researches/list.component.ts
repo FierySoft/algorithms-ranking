@@ -19,6 +19,18 @@ export class ResearchesListComponent implements OnInit {
             );
     }
 
+    public onSorted(event) {
+        const col = event.sortColumn as string;
+        const dir = event.sortDirection as string;
+
+        this.items.sort((a: Research, b: Research) => {
+            return dir === 'asc' ?
+                a[col] === b[col] ? 0 : a[col] > b[col] ? 1 : -1 :
+                a[col] === b[col] ? 0 : a[col] > b[col] ? -1 : 1;
+
+        });
+    }
+
     public selectItem(id: number): void {
         if (!id) { return; }
         this._researches.gotoItem(id);

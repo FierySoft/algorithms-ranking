@@ -5,11 +5,13 @@
 
 <spinner [active]="!items"></spinner>
 
-<table class="table table-hover table-striped table-bordered">
+<table sortable-table (sorted)="onSorted($event)" class="table table-hover table-striped table-bordered">
     <thead>
         <tr>
-            <th>Название</th>
-            <th>Создано</th>
+            <th sortable-column="name">Название</th>
+            <th>Руководитель</th>
+            <th>Исполнитель</th>
+            <th sortable-column="createdAt">Создано</th>
             <th style="width:70px"></th>
         </tr>
     </thead>
@@ -19,6 +21,8 @@
                 <research-status [code]="research.status"></research-status>
                 {{ research.name }}
             </td>
+            <td>{{ research.creator.shortName }}</td>
+            <td>{{ research.executor?.shortName }}</td>
             <td>{{ research.createdAt | date: 'dd.MM.yyyy HH:mm' }}</td>
             <td>
                 <i (click)="selectItem(research.id)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |
