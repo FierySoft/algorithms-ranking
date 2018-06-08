@@ -40,3 +40,40 @@
     </tbody>
 </table>
 <div *ngIf="!items?.length" style="text-align:center">Список пуст<hr></div>
+
+
+
+<modal [visible]="displayingAccount" 
+    [header]="displayingAccount?.person?.fullName"
+    (visibleChange)="hide()">
+    <div *ngIf="displayingAccount">
+        <div class="col-md-9 row">
+            <h3 class="form-group">
+                <label>Имя пользователя:</label> 
+                <span >{{ displayingAccount.userName }}</span>
+            </h3>
+            <h3 class="form-group">
+                <label>Роль:</label> 
+                <span>{{ displayingAccount.role }}</span>
+            </h3>
+            <h3 class="form-group">
+                <label>Email:</label> 
+                <a [href]="'mailto:' + displayingAccount.person.email">{{ displayingAccount.person.email }}</a>
+            </h3>
+            <h3 class="form-group">
+                <label>Телефон:</label> 
+                <a [href]="'tel:' + displayingAccount.person.phone">{{ displayingAccount.person.phone }}</a>
+            </h3>
+            <h3 class="form-group">
+                <label>Зарегестрирован:</label> 
+                <span>{{ displayingAccount.registeredAt | date:'dd.MM.yyyy HH:mm' }}</span>
+            </h3>
+        </div>
+        <div class="col-md-3">
+            <img [attr.src]="displayingAccount.avatarUri" alt="User Image" class="img-circle pull-right">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+    <a (click)="hide()" class="btn btn-lg btn-default pull-right">OK</a>
+</modal>

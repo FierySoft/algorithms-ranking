@@ -19,13 +19,9 @@ export class PersonsListComponent implements OnInit {
             );
     }
 
-    public display = (p: Person) => alert(`
-        Фамилия: ${p.lastName}
-        Имя: ${p.firstName}
-        Отчество: ${p.middleName}
-        Email: ${p.email}
-        Телефон: ${p.phone}
-    `)
+    displayingAccount: Account;
+    public display = (acc: Account) => this.displayingAccount = acc;
+    public hide = () => this.displayingAccount = null;
 
     public onSorted(event) {
         const col = event.sortColumn as string;
