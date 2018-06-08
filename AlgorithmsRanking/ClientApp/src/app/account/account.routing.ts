@@ -12,7 +12,8 @@ const routes: Routes = [
         component: AccountComponent,
         children: [
             { path: 'login', component: AccountLoginComponent },
-            { path: 'logs', component: LogsListComponent },
+            { path: 'logs/:accountId', component: LogsListComponent },
+            { path: 'logs', component: LogsListComponent }
         ]
     },
 ];

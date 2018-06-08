@@ -46,6 +46,10 @@ export class PersonsService {
         this._router.navigate(['persons', id]);
     }
 
+    public gotoLogs(accountId: number): void {
+        this._router.navigate(['account', 'logs', accountId]);
+    }
+
     public gotoCreate(): void {
         this._router.navigate(['persons', 'create']);
     }

@@ -20,7 +20,7 @@
             <th>Пользователь</th>
             <th>Роль</th>
             <th>Зарегестрирован</th>
-            <th style="width:70px" [hideIfUnauthorized]="'FULL_ACCESS'"></th>
+            <th style="width:90px" [hideIfUnauthorized]="'FULL_ACCESS'"></th>
         </tr>
     </thead>
     <tbody *ngIf="items">
@@ -33,6 +33,7 @@
             <td (click)="display(acc)">{{ acc.registeredAt | date: 'dd.MM.yyyy' }}</td>
             <td [hideIfUnauthorized]="'FULL_ACCESS'">
                 <i (click)="selectItem(acc.personId)" title="Редактировать" class="fa fa-edit" style="cursor:pointer"></i> |
+                <i (click)="logs(acc.id)" title="История" class="fa fa-address-book-o" style="cursor:pointer"></i> |
                 <i (click)="deleteItem(acc)" title="Удалить" class="fa fa-trash-o" style="cursor:pointer"></i>
             </td>
         </tr>

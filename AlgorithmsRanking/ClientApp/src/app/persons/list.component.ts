@@ -44,6 +44,11 @@ export class PersonsListComponent implements OnInit {
         this._persons.gotoItem(id);
     }
 
+    public logs(accountId: number) {
+        if (!accountId) { return; }
+        this._persons.gotoLogs(accountId);
+    }
+
     public deleteItem(item: Account) {
         if (!item) { return; }
         if (confirm(`Вы действительно хотите удалить \'${item.person.shortName}\'?`)) {

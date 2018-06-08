@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { AccountService } from './account.service';
 import { AccountActivity } from './account.models';
@@ -9,11 +10,18 @@ import { AccountActivity } from './account.models';
 export class LogsListComponent implements OnInit {
     items: AccountActivity[];
 
-    constructor(private _account: AccountService
+    constructor(
+        private _account: AccountService,
+        private _route: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        this._account.getActivitiesList(this._account.retrieveUserInfo().id)
+        this._route
+            .params
+            .switchMap((params: Params) => {
+                const accountId = !!params['accountId'] ? +params['accountId'] : this._account.retrieveUserInfo().id;
+                return this._account.getActivitiesList(accountId);
+            })
             .subscribe(
                 result => this.items = result,
                 error => console.log(error)
