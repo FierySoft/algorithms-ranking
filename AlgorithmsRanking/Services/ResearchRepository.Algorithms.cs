@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,11 @@ namespace AlgorithmsRanking.Services
 
         public async Task<Algorithm> CreateAlgorithmAsync(Algorithm model)
         {
+            if (await CheckAlgorithmNameAndTypeExistsAsync(model.Name, model.Type))
+            {
+                throw new ArgumentException("Алгоритм с такими параметрами уже существует");
+            }
+
             var create = _db.Algorithms.Add(model).Entity;
 
             await _db.SaveChangesAsync();
@@ -35,6 +41,11 @@ namespace AlgorithmsRanking.Services
 
         public async Task<Algorithm> UpdateAlgorithmAsync(int id, Algorithm model)
         {
+            if (await CheckAlgorithmNameAndTypeExistsAsync(id, model.Name, model.Type))
+            {
+                throw new ArgumentException("Алгоритм с такими параметрами уже существует");
+            }
+
             var update = await GetAlgorithmAsync(id);
 
             update.Name = model.Name;
@@ -53,5 +64,12 @@ namespace AlgorithmsRanking.Services
             _db.Algorithms.Remove(remove);
             await _db.SaveChangesAsync();
         }
+
+
+        internal Task<bool> CheckAlgorithmNameAndTypeExistsAsync(string name, string type) 
+            => Task.FromResult(_db.Algorithms.Where(x => x.Name == name && x.Type == type).Any());
+
+        internal Task<bool> CheckAlgorithmNameAndTypeExistsAsync(int id, string name, string type)
+            => Task.FromResult(_db.Algorithms.Where(x => x.Id != id && x.Name == name && x.Type == type).Any());
     }
 }
