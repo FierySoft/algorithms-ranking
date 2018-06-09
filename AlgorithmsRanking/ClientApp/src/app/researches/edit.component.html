@@ -28,7 +28,7 @@
         <research-card [id]="value.id"></research-card>
     </div>
 
-    <div *ngIf="value.calculated" class="panel" style="margin-bottom:20px"
+    <div *ngIf="value.calculated && value.research.status" class="panel" style="margin-bottom:20px"
         [class.panel-default]="value.research.status===0 || value.research.status===1"
         [class.panel-primary]="value.research.status===2 || value.research.status===3"
         [class.panel-danger]="value.research.status===4"
@@ -39,40 +39,52 @@
         <div class="panel-body">
             <form #form="ngForm" novalidate (submit)="submit()" *ngIf="value.permissions.canEditCalculated" class="row">
                 <div class="form-group col-md-offset-1 col-md-4">
-                    <label for="accuracyRate" class="control-label">Показатель точности</label>
-                    <input type="number"
-                        [(ngModel)]="value.calculated.accuracyRate"
-                        required
+                    <label for="accuracyRates" class="control-label">Показатель точности</label>
+                    <array-control
+                        [(ngModel)]="value.calculated.accuracyRates"
+                        [researchId]="value.id"
+                        type="0"
                         placeholder="Введите значение"
-                        name="accuracyRate" ngModel #accuracyRate="ngModel"
-                        class="form-control" />
-                    <control-messages [control]="accuracyRate" class="error-message text-danger"></control-messages>
+                        name="accuracyRates" ngModel #accuracyRates="ngModel">
+                    </array-control>
+                    <control-messages [control]="accuracyRates" class="error-message text-danger"></control-messages>
                 </div>
                 <div class="form-group col-md-offset-2 col-md-4">
-                    <label for="efficiencyRate" class="control-label">Показатель эффективности</label>
-                    <input type="number"
-                        [(ngModel)]="value.calculated.efficiencyRate"
-                        required
+                    <label for="efficiencyRates" class="control-label">Показатель эффективности</label>
+                    <array-control
+                        [(ngModel)]="value.calculated.efficiencyRates"
+                        [researchId]="value.id"
+                        type="1"
                         placeholder="Введите значение"
-                        name="efficiencyRate" ngModel #efficiencyRate="ngModel"
-                        class="form-control" />
-                    <control-messages [control]="efficiencyRate" class="error-message text-danger"></control-messages>
+                        name="efficiencyRates" ngModel #efficiencyRates="ngModel">
+                    </array-control>
+                    <control-messages [control]="efficiencyRates" class="error-message text-danger"></control-messages>
                 </div>
             </form>
             <h4 *ngIf="!value.permissions.canEditCalculated">
-                <div class="col-md-offset-1 col-md-5">
-                    <label><i class="fa fa-dashboard"></i> Показатель точности:</label>
-                    {{ value.calculated.accuracyRate || 'Не рассчитан' }}
+                <div class="col-md-6">
+                    <label class="col-md-6"><i class="fa fa-dashboard"></i> Показатели точности:</label>
+                    <div *ngIf="value.calculated?.accuracyRates?.length" class="col-md-6">
+                        <span *ngFor="let acc of value.calculated.accuracyRates" style="margin-right:5px">{{ acc.value }}, </span>
+                    </div>
+                    <div *ngIf="!value.calculated?.accuracyRates?.length" class="col-md-6">
+                        Не рассчитаны
+                    </div>
                 </div>
-                <div class="col-md-offset-1 col-md-5">
-                    <label><i class="fa fa-signal"></i> Показатель эффективности:</label>
-                    {{ value.calculated.efficiencyRate || 'Не рассчитан' }}
+                <div class="col-md-6">
+                    <label class="col-md-6"><i class="fa fa-signal"></i> Показатели эффективности:</label>
+                    <div *ngIf="value.calculated?.efficiencyRates?.length" class="col-md-6">
+                            <span *ngFor="let acc of value.calculated.efficiencyRates" style="margin-right:5px">{{ acc.value }}, </span>
+                    </div>
+                    <div *ngIf="!value.calculated?.efficiencyRates?.length" class="col-md-6">
+                        Не рассчитаны
+                    </div>
                 </div>
             </h4>
         </div>
     </div>
     
-    <div>
+    <div *ngIf="value.research.status">
         <comments [researchId]="value.id" [showPost]="value.permissions.canPostComment"></comments>
     </div>
 </div>

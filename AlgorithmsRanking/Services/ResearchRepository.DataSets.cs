@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using AlgorithmsRanking.Entities;
 using AlgorithmsRanking.Models;
+using System;
 
 namespace AlgorithmsRanking.Services
 {
@@ -30,6 +31,11 @@ namespace AlgorithmsRanking.Services
 
         public async Task<DataSet> CreateDataSetAsync(DataSet model)
         {
+            if (await CheckDataSetNameAndTypeExistsAsync(model.Name, model.Type))
+            {
+                throw new ArgumentException("Набор данных с такими параметрами уже существует");
+            }
+
             var create = _db.DataSets.Add(model).Entity;
             await _db.SaveChangesAsync();
 
@@ -41,6 +47,11 @@ namespace AlgorithmsRanking.Services
 
         public async Task<DataSet> UpdateDataSetAsync(int id, DataSet model)
         {
+            if (await CheckDataSetNameAndTypeExistsAsync(id, model.Name, model.Type))
+            {
+                throw new ArgumentException("Набор данных с такими параметрами уже существует");
+            }
+
             var update = await GetDataSetAsync(id);
 
             update.Name = model.Name;
@@ -59,5 +70,12 @@ namespace AlgorithmsRanking.Services
             _db.DataSets.Remove(remove);
             await _db.SaveChangesAsync();
         }
+
+
+        internal Task<bool> CheckDataSetNameAndTypeExistsAsync(string name, string type)
+            => Task.FromResult(_db.DataSets.Where(x => x.Name == name && x.Type == type).Any());
+
+        internal Task<bool> CheckDataSetNameAndTypeExistsAsync(int id, string name, string type)
+            => Task.FromResult(_db.DataSets.Where(x => x.Id != id && x.Name == name && x.Type == type).Any());
     }
 }
