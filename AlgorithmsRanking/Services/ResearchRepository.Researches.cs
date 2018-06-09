@@ -54,6 +54,8 @@ namespace AlgorithmsRanking.Services
 
                 // TODO: fix!
                 result.DataSet.Files = await GetAttachmentsForDataSetAsync(result.DataSetId);
+                result.AccuracyRates = await GetAccuracyRatesForAsync(result.Id);
+                result.EfficiencyRates = await GetEfficiencyRatesForAsync(result.Id);
 
                 return result;
             }
@@ -135,8 +137,17 @@ namespace AlgorithmsRanking.Services
         {
             var task = await GetResearchAsync(id);
 
-            task.AccuracyRate = rates.AccuracyRate;
-            task.EfficiencyRate = rates.EfficiencyRate;
+            if (task.AccuracyRates?.Length > 0 || task.EfficiencyRates?.Length > 0)
+            {
+                await RemoveRatesForAsync(id);
+            }
+
+            var items = rates.AccuracyRates.Concat(rates.EfficiencyRates);
+
+            await CreateRatesForAsync(id, items);
+
+            task.AccuracyRates = rates.AccuracyRates;
+            task.EfficiencyRates = rates.EfficiencyRates;
             task.ExecutedAt = DateTime.Now;
             task.Status = ResearchStatus.EXECUTED;
 

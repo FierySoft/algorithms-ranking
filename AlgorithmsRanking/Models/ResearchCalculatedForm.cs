@@ -1,8 +1,10 @@
-﻿namespace AlgorithmsRanking.Models
+﻿using AlgorithmsRanking.Entities;
+
+namespace AlgorithmsRanking.Models
 {
     public class ResearchCalculatedForm
     {
-        public float AccuracyRate { get; set; }
-        public float EfficiencyRate { get; set; }
+        public ResearchRate[] AccuracyRates { get; set; }
+        public ResearchRate[] EfficiencyRates { get; set; }
     }
 }

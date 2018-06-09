@@ -160,11 +160,11 @@ namespace AlgorithmsRanking.Controllers
                     CreatorId = item.CreatorId,
                     ExecutorId = item.ExecutorId,
                 },
-                Calculated = item.AccuracyRate.HasValue && item.EfficiencyRate.HasValue ?
+                Calculated = item.AccuracyRates != null && item.EfficiencyRates != null ?
                     new ResearchCalculatedForm
                     {
-                        AccuracyRate = item.AccuracyRate.Value,
-                        EfficiencyRate = item.EfficiencyRate.Value
+                        AccuracyRates = item.AccuracyRates,
+                        EfficiencyRates = item.EfficiencyRates
                     } : null,
                 Algorithms = await _db.GetAlgorithmsListItemsAsync(),
                 DataSets = await _db.GetDataSetsListItemsAsync(),

@@ -21,8 +21,8 @@ namespace AlgorithmsRanking.Entities
         public int DataSetId { get; set; }
         public virtual DataSet DataSet { get; set; }
 
-        public float? AccuracyRate { get; set; }
-        public float? EfficiencyRate { get; set; }
+        public ResearchRate[] AccuracyRates { get; set; }
+        public ResearchRate[] EfficiencyRates { get; set; }
 
         public ResearchStatus Status { get; set; }
 
