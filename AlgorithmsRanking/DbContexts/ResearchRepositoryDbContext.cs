@@ -17,6 +17,7 @@ namespace AlgorithmsRanking.DbContexts
         public DbSet<Algorithm> Algorithms { get; set; }
         public DbSet<DataSet> DataSets { get; set; }
         public DbSet<Research> Researches { get; set; }
+        public DbSet<ResearchRate> Rates { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AccountActivity> AccountActivities { get; set; }
@@ -90,6 +91,13 @@ namespace AlgorithmsRanking.DbContexts
                 .HasMaxLength(500);
 
             builder.Entity<Research>().HasKey(x => x.Id);
+
+            builder.Entity<Research>().Ignore(c => c.AccuracyRates);
+
+            builder.Entity<Research>().Ignore(c => c.EfficiencyRates);
+
+
+            builder.Entity<ResearchRate>().HasKey(c => c.Id);
 
 
             builder.Entity<Comment>().Property(x => x.Author)
