@@ -8,6 +8,7 @@ import { ResearchesRoutingModule, researchesComponents } from './researches.rout
 import { ResearchesService } from './researches.service';
 import { CommentsService } from './comments/comments.service';
 import { ResearchesFoldersComponent } from './folders.component';
+import { ArrayControlComponent } from './array-control.component';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { ResearchesFoldersComponent } from './folders.component';
         ResearchesRoutingModule
     ],
     declarations: [
-        ...researchesComponents
+        ...researchesComponents,
+        ArrayControlComponent
     ],
     providers: [
         ResearchesService,

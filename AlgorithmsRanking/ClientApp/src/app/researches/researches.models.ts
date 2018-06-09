@@ -13,8 +13,8 @@ export class Research {
     algorithm: Algorithm;
     dataSetId: number;
     dataSet: DataSet;
-    accuracyRate?: number;
-    efficiencyRate?: number;
+    accuracyRate?: ResearchRate[];
+    efficiencyRate?: ResearchRate[];
     status: number;
     createdAt: Date;
     assignedAt?: Date;
@@ -22,6 +22,16 @@ export class Research {
     executedAt?: Date;
     closedAt?: Date;
 }
+
+export class ResearchRate {
+    constructor(
+        public id: number,
+        public researchId: number,
+        public type: number,
+        public value: number
+    ) { }
+}
+
 
 export class ResearchFolders {
     active: Research[];
@@ -39,8 +49,8 @@ export class ResearchInitForm {
 }
 
 export class ResearchCalculatedForm {
-    accuracyRate: number;
-    efficiencyRate: number;
+    accuracyRates: ResearchRate[] = [];
+    efficiencyRates: ResearchRate[] = [];
 }
 
 export class ResearchPermissions {
