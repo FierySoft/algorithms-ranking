@@ -103,7 +103,7 @@ namespace AlgorithmsRanking.Controllers
 
             try
             {
-                model.CreatorId = 1; // TODO : заменить на реальный id!
+                model.CreatorId = Int32.Parse(User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value);
 
                 var result = await _db.CreateResearchAsync(model);
 
